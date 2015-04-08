@@ -18,13 +18,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import cn.com.secbuy.dto.ContactDTO;
 import cn.com.secbuy.dto.ResDTO;
+import cn.com.secbuy.dto.UserDTO;
 import cn.com.secbuy.pojo.Res;
 import cn.com.secbuy.service.ResService;
+import cn.com.secbuy.service.UserService;
 import cn.com.secbuy.util.DateConver;
 import cn.com.secbuy.util.Pagination;
 
@@ -39,6 +42,8 @@ import cn.com.secbuy.util.Pagination;
 public class ResAPI extends Base {
 	@Autowired
 	private ResService resService;
+	@Autowired
+	private UserService userService;
 	private Map<String, Object> responseMap = null;// 返回json
 
 	/**
@@ -59,9 +64,9 @@ public class ResAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
 			return responseMap;
 		}
-		long rows = resService.findResRows(key, null, null);// 查询总记录数
+		long rows = resService.findResRows(key, null, null, PUTSUP);// 查询总记录数
 		if (rows != 0) {
-			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, null);// 一页数据
+			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, null, PUTSUP);// 一页数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, reses);
 			responseMap.put(PAGE, page);
@@ -100,9 +105,9 @@ public class ResAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
 			return responseMap;
 		}
-		long rows = resService.findResRows(key, Integer.valueOf(cataId), null);// 查询总记录数
+		long rows = resService.findResRows(key, Integer.valueOf(cataId), null, PUTSUP);// 查询总记录数
 		if (rows != 0) {
-			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, Integer.valueOf(cataId), null);// 一页数据
+			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, Integer.valueOf(cataId), null, PUTSUP);// 一页数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, reses);
 			responseMap.put(PAGE, page);
@@ -127,23 +132,24 @@ public class ResAPI extends Base {
 	 *            查询关键字
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/reses/user/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/v1/reses/user/{accessToken}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getUserReses(@PathVariable String userId, String pageNow, String key) {
+	public Map<String, Object> getUserReses(@PathVariable String accessToken, String pageNow, String key) {
 		responseMap = new HashMap<String, Object>();
-		if (!StringUtils.isNumeric(userId)) {
-			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
-			responseMap.put(ERROR_MESSAGE, "用户序号必须是数字！");// 返回错误信息
-			return responseMap;
-		}
 		if (!StringUtils.isNumeric(pageNow)) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
 			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
 			return responseMap;
 		}
-		long rows = resService.findResRows(key, Integer.valueOf(userId), null);// 查询总记录数
+		UserDTO user = userService.findUserByAccessid(accessToken);// 获取用户信息
+		if (user == null || user.getId() == null) {
+			responseMap.put(STATUS_CODE, NOT_FOUND);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "用户记录不存在!");// 返回错误信息
+			return responseMap;
+		}
+		long rows = resService.findResRows(key, null, user.getId(), null);// 查询总记录数
 		if (rows != 0) {
-			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, Integer.valueOf(userId), null);// 一页数据
+			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, user.getId(), null);// 一页数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, reses);
 			responseMap.put(PAGE, page);
@@ -154,6 +160,38 @@ public class ResAPI extends Base {
 		}
 		responseMap.put(STATUS_CODE, OK);// 返回请求状态码
 		responseMap.put(OK_MESSAGE, "获取用户下商品列表信息成功！");// 返回信息
+		return responseMap;
+	}
+
+	/**
+	 * 获取最新的商品信息
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/reses/newest", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getNewestReses() {
+		responseMap = new HashMap<String, Object>();
+		List<ResDTO> reses = resService.findNewestReses();// 获取最新的12条商品信息
+		responseMap.put(DATA, reses);
+		responseMap.put(STATUS_CODE, OK);// 返回请求状态码
+		responseMap.put(OK_MESSAGE, "获取最新商品列表信息成功！");// 返回信息
+		return responseMap;
+	}
+
+	/**
+	 * 获取推荐商品
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/reses/recommend", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getRecommendReses() {
+		responseMap = new HashMap<String, Object>();
+		List<ResDTO> reses = resService.findDigestReses(RECOMMEND);// 获取12条digest商品信息
+		responseMap.put(DATA, reses);
+		responseMap.put(STATUS_CODE, OK);// 返回请求状态码
+		responseMap.put(OK_MESSAGE, "获取最新商品列表信息成功！");// 返回信息
 		return responseMap;
 	}
 
@@ -214,6 +252,39 @@ public class ResAPI extends Base {
 	}
 
 	/**
+	 * 上传商品图片
+	 * 
+	 * @param resFile
+	 *            文件
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/reses/pic/new", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> resPictrueNew(@RequestParam MultipartFile resFile, HttpServletRequest request) {
+		responseMap = new HashMap<String, Object>();
+		String fileURL = request.getSession().getServletContext().getRealPath(FILEURL);// 获取文件路径
+		File filePath = new File(fileURL);
+		if (!filePath.exists()) {
+			filePath.mkdirs();
+		}
+		String fileName = resFile.getOriginalFilename();// 获取文件名
+		String extName = fileName.substring(fileName.lastIndexOf("."));// 截取文件后缀名
+		fileName = UUID.randomUUID().toString().substring(0, 18) + extName;// UUID文件名称,区分文件
+		File targetFile = new File(fileURL, fileName);// 创建文件对象
+		boolean isUploaded = this.copyResFile(resFile, targetFile);// 上传文件
+		if (isUploaded) {
+			responseMap.put(STATUS_CODE, OK);// 返回请求状态码
+			responseMap.put(DATA, "uploadFiles/" + fileName);// 返回文件路径
+			responseMap.put(OK_MESSAGE, "文件上传成功！");// 返回信息
+		} else {
+			responseMap.put(STATUS_CODE, INTERNAL_SERVER_ERROR);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "文件上传失败！");// 返回错误信息
+		}
+		return responseMap;
+	}
+
+	/**
 	 * 新增商品
 	 * 
 	 * @param res
@@ -221,44 +292,34 @@ public class ResAPI extends Base {
 	 *            商品信息
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/reses", method = RequestMethod.PUT)
+	@RequestMapping(value = "/api/v1/reses/new", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> newRes(Res res, MultipartFile resFile, HttpServletRequest request) {
+	public Map<String, Object> newRes(Res res, String accessToken) {
 		responseMap = new HashMap<String, Object>();
 		if (res == null) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
 			responseMap.put(ERROR_MESSAGE, "商品信息不能为空！");// 返回错误信息
 			return responseMap;
 		}
-		if (resFile.isEmpty()) {
-			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
-			responseMap.put(ERROR_MESSAGE, "商品文件不能为空！");// 返回错误信息
-			return responseMap;
-		}
-		String fileURL = request.getSession().getServletContext().getRealPath(FILEURL);// 获取文件路径
-		String fileName = resFile.getOriginalFilename();// 获取文件名
-		String extName = fileName.substring(fileName.lastIndexOf("."));// 截取文件后缀名
-		fileName = UUID.randomUUID().toString() + extName;// UUID文件名称,区分文件
-		File targetFile = new File(fileURL, fileName);// 创建文件对象
-		boolean isUploaded = this.copyResFile(resFile, targetFile);// 上传文件
-		if (!isUploaded) {
-			responseMap.put(STATUS_CODE, INTERNAL_SERVER_ERROR);// 返回错误请求状态码
-			responseMap.put(ERROR_MESSAGE, "文件上传失败！");// 返回错误信息
+		UserDTO user = userService.findUserByAccessid(accessToken);// 获取用户信息
+		if (user == null || user.getId() == null) {
+			responseMap.put(STATUS_CODE, NOT_FOUND);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "用户记录不存在!");// 返回错误信息
 			return responseMap;
 		}
 		Date now = new Date();
+		res.setName("");
 		res.setCreatetime(now);// 创建时间
-		res.setResImageUrl(FILEURL + "/" + fileName);// 图片路径
 		res.setUpdatetime(now);// 更新时间
 		res.setStatus(WAITING);// 状态
+		res.setUserId(user.getId());// 用户Id
 		boolean isResPersisted = resService.addRes(res);// 添加数据库
 		if (isResPersisted) {
 			responseMap.put(STATUS_CODE, OK);// 返回请求状态码
 			responseMap.put(OK_MESSAGE, "添加商品成功！");// 返回信息
 		} else {
-			targetFile.deleteOnExit();// 如果存在,则删除
 			responseMap.put(STATUS_CODE, INTERNAL_SERVER_ERROR);// 返回请求状态码
-			responseMap.put(OK_MESSAGE, "添加商品数据失败！");// 返回信息
+			responseMap.put(ERROR_MESSAGE, "添加商品数据失败！");// 返回信息
 		}
 		return responseMap;
 	}
@@ -273,9 +334,6 @@ public class ResAPI extends Base {
 	 * @return
 	 */
 	private boolean copyResFile(MultipartFile resFile, File targetFile) {
-		if (!targetFile.exists()) {
-			targetFile.mkdirs();// 不存在则创建
-		}
 		try {
 			FileUtils.copyInputStreamToFile(resFile.getInputStream(), targetFile);// copy文件到指定目录
 			return true;
@@ -411,7 +469,7 @@ public class ResAPI extends Base {
 			return responseMap;
 		}
 		ResDTO res = resService.findResByID(Integer.valueOf(resId));
-		if (res == null || res.getStatus() != PUTSUP) {
+		if (res == null || PUTSUP != res.getStatus()) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
 			responseMap.put(ERROR_MESSAGE, "该商品不在发布状态中,无法进行下架！");// 返回错误信息
 			return responseMap;

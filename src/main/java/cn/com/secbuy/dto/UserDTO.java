@@ -14,7 +14,6 @@ public class UserDTO {
 	private String userMail; // 邮箱
 	private String name; // 姓名
 	private String sex;// 性别
-	private String profileimageurl;// 头像图片地址
 	private String contact;// 联系方式
 	private Integer status;// 用户当前状态1开启，0关闭
 
@@ -64,14 +63,6 @@ public class UserDTO {
 
 	public void setSex(String sex) {
 		this.sex = sex;
-	}
-
-	public String getProfileimageurl() {
-		return profileimageurl;
-	}
-
-	public void setProfileimageurl(String profileimageurl) {
-		this.profileimageurl = profileimageurl;
 	}
 
 	public String getContact() {

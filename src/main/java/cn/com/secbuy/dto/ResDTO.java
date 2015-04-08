@@ -11,16 +11,15 @@ public class ResDTO {
 	private Integer id;// 序号
 	private String name;// 名称
 	private String title;// 标题
-	private String description;// 描述
+	private String resDesc;// 描述
 	private String resImageUrl;// 图片地址
 	private Double cost;// 价格
+	private String createtime;// 创建时间
 	private String putstime;// 通过审核发布时间
+	private int digest;// 0普通商品 1推荐商品
 	private Integer status;// 状态
 	private String cataName;// 分类名称
-	private String nickName;// 昵称
-	private String sex;// 性别
-	private String profileImageUrl;// 头像图片地址
-	private String contact;// 联系方式
+	private Integer userId;// 用户Id
 
 	public Integer getId() {
 		return id;
@@ -46,12 +45,12 @@ public class ResDTO {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getResDesc() {
+		return resDesc;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setResDesc(String resDesc) {
+		this.resDesc = resDesc;
 	}
 
 	public String getResImageUrl() {
@@ -70,12 +69,28 @@ public class ResDTO {
 		this.cost = cost;
 	}
 
+	public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
+
 	public String getPutstime() {
 		return putstime;
 	}
 
 	public void setPutstime(String putstime) {
 		this.putstime = putstime;
+	}
+
+	public int getDigest() {
+		return digest;
+	}
+
+	public void setDigest(int digest) {
+		this.digest = digest;
 	}
 
 	public Integer getStatus() {
@@ -94,36 +109,12 @@ public class ResDTO {
 		this.cataName = cataName;
 	}
 
-	public String getNickName() {
-		return nickName;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
-	public String getProfileImageUrl() {
-		return profileImageUrl;
-	}
-
-	public void setProfileImageUrl(String profileImageUrl) {
-		this.profileImageUrl = profileImageUrl;
-	}
-
-	public String getContact() {
-		return contact;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

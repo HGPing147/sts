@@ -26,10 +26,13 @@ import cn.com.secbuy.pojo.Res;
 public class ResDAOImpl extends BaseDAO implements ResDAO {
 
 	@Override
-	public List<ResDTO> findLimitedReses(long pageNow, int pageSize, String key, Integer cataId, Integer userId) {
+	public List<ResDTO> findLimitedReses(long pageNow, int pageSize, String key, Integer cataId, Integer userId, Integer status) {
 		StringBuffer sql = new StringBuffer(
-				"select r.id,r.title,r.name,r.description,r.resimageurl,r.cost,r.putstime,r.status,c.name as cataname,u.nickname,u.profileimageurl from res r ");
-		sql.append("left join rescatagory c on r.cataid=c.id left join user u on r.userid=u.id where 1=1 and status=2 ");
+				"select r.id,r.title,r.name,r.resimageurl,r.cost,r.createtime,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r ");
+		sql.append("left join rescatagory c on r.cataid=c.id  where 1=1 ");
+		if (status != null) {
+			sql.append("and status=" + status + " ");
+		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
 		}
@@ -51,18 +54,16 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 			public void processRow(ResultSet rs) throws SQLException {
 				ResDTO res = new ResDTO();
 				res.setCataName(rs.getString("cataname"));
-				res.setContact(rs.getString("contact"));
 				res.setCost(rs.getDouble("cost"));
-				res.setDescription(rs.getString("description"));
 				res.setId(rs.getInt("id"));
 				res.setName(rs.getString("name"));
-				res.setNickName(rs.getString("nickname"));
-				res.setProfileImageUrl(rs.getString("profileimageurl"));
-				res.setPutstime(rs.getString("putstime"));
-				res.setResImageUrl(rs.getString("resimageurl"));
-				res.setSex(rs.getString("sex"));
-				res.setStatus(rs.getInt("status"));
 				res.setTitle(rs.getString("title"));
+				res.setCreatetime(rs.getString("createtime"));
+				res.setPutstime(rs.getString("putstime"));
+				res.setDigest(rs.getInt("digest"));
+				res.setResImageUrl(rs.getString("resimageurl"));
+				res.setStatus(rs.getInt("status"));
+				res.setUserId(rs.getInt("userid"));
 				list.add(res);
 			}
 		});
@@ -70,9 +71,11 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 	}
 
 	@Override
-	public long findResRows(String key, Integer cataId, Integer userId) {
-		StringBuffer sql = new StringBuffer("select count(r.id) from res r ");
-		sql.append("left join rescatagory c on r.cataid=c.id left join user u on r.userid=u.id where 1=1 and status=2 ");
+	public long findResRows(String key, Integer cataId, Integer userId, Integer status) {
+		StringBuffer sql = new StringBuffer("select count(r.id) from res r where 1=1 ");
+		if (status != null) {
+			sql.append("and status=" + status + " ");
+		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
 		}
@@ -86,10 +89,13 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 	}
 
 	@Override
-	public List<ResDTO> findLimitedCataReses(long pageNow, int pageSize, String key, Integer cataId) {
+	public List<ResDTO> findLimitedCataReses(long pageNow, int pageSize, String key, Integer cataId, Integer status) {
 		StringBuffer sql = new StringBuffer(
-				"select r.id,r.title,r.name,r.description,r.resimageurl,r.cost,r.putstime,r.status,c.name as cataname,u.nickname,u.profileimageurl from res r ");
-		sql.append("left join rescatagory c on r.cataid=c.id left join user u on r.userid=u.id where 1=1 and status=2 ");
+				"select r.id,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r ");
+		sql.append("left join rescatagory c on r.cataid=c.id  where 1=1 ");
+		if (status != null) {
+			sql.append("and status=" + status + " ");
+		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
 		}
@@ -108,18 +114,14 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 			public void processRow(ResultSet rs) throws SQLException {
 				ResDTO res = new ResDTO();
 				res.setCataName(rs.getString("cataname"));
-				res.setContact(rs.getString("contact"));
 				res.setCost(rs.getDouble("cost"));
-				res.setDescription(rs.getString("description"));
 				res.setId(rs.getInt("id"));
 				res.setName(rs.getString("name"));
-				res.setNickName(rs.getString("nickname"));
-				res.setProfileImageUrl(rs.getString("profileimageurl"));
 				res.setPutstime(rs.getString("putstime"));
+				res.setDigest(rs.getInt("digest"));
 				res.setResImageUrl(rs.getString("resimageurl"));
-				res.setSex(rs.getString("sex"));
 				res.setStatus(rs.getInt("status"));
-				res.setTitle(rs.getString("title"));
+				res.setUserId(rs.getInt("userid"));
 				list.add(res);
 			}
 		});
@@ -127,10 +129,13 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 	}
 
 	@Override
-	public List<ResDTO> findLimitedUserReses(long pageNow, int pageSize, String key, Integer userId) {
+	public List<ResDTO> findLimitedUserReses(long pageNow, int pageSize, String key, Integer userId, Integer status) {
 		StringBuffer sql = new StringBuffer(
-				"select r.id,r.title,r.name,r.description,r.resimageurl,r.cost,r.putstime,r.status,c.name as cataname,u.nickname,u.profileimageurl from res r ");
-		sql.append("left join rescatagory c on r.cataid=c.id left join user u on r.userid=u.id where 1=1 and status=2 ");
+				"select r.id,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r ");
+		sql.append("left join rescatagory c on r.cataid=c.id  where 1=1 ");
+		if (status != null) {
+			sql.append("and status=" + status + " ");
+		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
 		}
@@ -149,18 +154,14 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 			public void processRow(ResultSet rs) throws SQLException {
 				ResDTO res = new ResDTO();
 				res.setCataName(rs.getString("cataname"));
-				res.setContact(rs.getString("contact"));
 				res.setCost(rs.getDouble("cost"));
-				res.setDescription(rs.getString("description"));
 				res.setId(rs.getInt("id"));
 				res.setName(rs.getString("name"));
-				res.setNickName(rs.getString("nickname"));
-				res.setProfileImageUrl(rs.getString("profileimageurl"));
 				res.setPutstime(rs.getString("putstime"));
+				res.setDigest(rs.getInt("digest"));
 				res.setResImageUrl(rs.getString("resimageurl"));
-				res.setSex(rs.getString("sex"));
 				res.setStatus(rs.getInt("status"));
-				res.setTitle(rs.getString("title"));
+				res.setUserId(rs.getInt("userid"));
 				list.add(res);
 			}
 
@@ -169,9 +170,61 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 	}
 
 	@Override
+	public List<ResDTO> findNewestReses() {
+		String sql = "select r.id,r.title,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r "
+				+ "left join rescatagory c on r.cataid=c.id  where 1=1 and r.status=2 order by r.putstime desc limit 0,12";
+		final List<ResDTO> list = new ArrayList<ResDTO>();
+		this.jdbcTemplate.query(sql, new RowCallbackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				ResDTO res = new ResDTO();
+				res.setCataName(rs.getString("cataname"));
+				res.setCost(rs.getDouble("cost"));
+				res.setId(rs.getInt("id"));
+				res.setTitle(rs.getString("title"));
+				res.setName(rs.getString("name"));
+				res.setPutstime(rs.getString("putstime"));
+				res.setDigest(rs.getInt("digest"));
+				res.setResImageUrl(rs.getString("resimageurl"));
+				res.setStatus(rs.getInt("status"));
+				res.setUserId(rs.getInt("userid"));
+				list.add(res);
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public List<ResDTO> findDigestReses(int digest) {
+		String sql = "select r.id,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r "
+				+ "left join rescatagory c on r.cataid=c.id  where 1=1 and r.status=2 and r.digest=?  limit 0,12";
+		final List<ResDTO> list = new ArrayList<ResDTO>();
+		Integer[] args = { digest };
+		this.jdbcTemplate.query(sql, args, new RowCallbackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				ResDTO res = new ResDTO();
+				res.setCataName(rs.getString("cataname"));
+				res.setCost(rs.getDouble("cost"));
+				res.setId(rs.getInt("id"));
+				res.setName(rs.getString("name"));
+				res.setPutstime(rs.getString("putstime"));
+				res.setDigest(rs.getInt("digest"));
+				res.setResImageUrl(rs.getString("resimageurl"));
+				res.setStatus(rs.getInt("status"));
+				res.setUserId(rs.getInt("userid"));
+				list.add(res);
+			}
+		});
+		return list;
+	}
+
+	@Override
 	public ResDTO findResByID(Integer id) {
-		String sql = "select r.id,r.title,r.name,r.description,r.resimageurl,r.cost,r.putstime,r.status,c.name as cataname,u.nickname,u.profileimageurl from res r"
-				+ "left join rescatagory c on r.cataid=c.id left join user u on r.userid=u.id where 1=1 and r.id=?";
+		String sql = "select r.id,r.name,r.title,r.description,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r "
+				+ "left join rescatagory c on r.cataid=c.id  where 1=1 and r.id=?";
 		Object[] args = new Object[] { id };
 		final ResDTO res = new ResDTO();
 		this.jdbcTemplate.query(sql, args, new RowCallbackHandler() {
@@ -179,18 +232,16 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
 				res.setCataName(rs.getString("cataname"));
-				res.setContact(rs.getString("contact"));
 				res.setCost(rs.getDouble("cost"));
-				res.setDescription(rs.getString("description"));
 				res.setId(rs.getInt("id"));
 				res.setName(rs.getString("name"));
-				res.setNickName(rs.getString("nickname"));
-				res.setProfileImageUrl(rs.getString("profileimageurl"));
-				res.setPutstime(rs.getString("putstime"));
-				res.setResImageUrl(rs.getString("resimageurl"));
-				res.setSex(rs.getString("sex"));
-				res.setStatus(rs.getInt("status"));
 				res.setTitle(rs.getString("title"));
+				res.setResDesc(rs.getString("description"));
+				res.setPutstime(rs.getString("putstime"));
+				res.setDigest(rs.getInt("digest"));
+				res.setResImageUrl(rs.getString("resimageurl"));
+				res.setStatus(rs.getInt("status"));
+				res.setUserId(rs.getInt("userid"));
 			}
 		});
 		return res;
@@ -198,7 +249,7 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 
 	@Override
 	public ContactDTO findSellerContactByID(Integer id) {
-		String sql = "select r.contact,u.name as sellername from res r left join user u on r.userid=u.id where 1=1 and r.id=?";
+		String sql = "select u.contact,u.name from res r left join user u on r.userid=u.id where 1=1 and r.id=?";
 		final ContactDTO contact = new ContactDTO();
 		Object[] args = new Object[] { id };
 		this.jdbcTemplate.query(sql, args, new RowCallbackHandler() {
@@ -206,7 +257,7 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
 				contact.setContact(rs.getString("contact"));
-				contact.setSellerName(rs.getString("sellername "));
+				contact.setSellerName(rs.getString("name"));
 			}
 		});
 		return contact;
@@ -235,6 +286,14 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 		Object[] args = new Object[] { id };
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
+	}
+
+	@Override
+	public boolean delResByCataId(Integer cataId) {
+		String sql = "delete from res r where r.cataid=?";
+		Object[] args = new Object[] { cataId };
+		int result = this.jdbcTemplate.update(sql, args);
+		return result > 0;
 	}
 
 	@Override

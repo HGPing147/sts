@@ -6,7 +6,7 @@
 
 	<!-- 默认页 -->
 	<welcome-file-list>
-		<welcome-file>/view/index.html</welcome-file>
+		<welcome-file>/index.html</welcome-file>
 	</welcome-file-list>
 
 	<!-- log4配置 -->
@@ -33,6 +33,15 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/</url-pattern>
+	</filter-mapping>
+	<!-- 权限过滤器 -->
+	<filter>
+		<filter-name>Security</filter-name>
+		<filter-class>cn.com.secbuy.security.UserSecurity</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Security</filter-name>
 		<url-pattern>/</url-pattern>
 	</filter-mapping>
 
@@ -88,6 +97,10 @@
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.ico</url-pattern>
+	</servlet-mapping>
+		<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ttf</url-pattern>
 	</servlet-mapping>
 
 	<!-- session失效时间 -->

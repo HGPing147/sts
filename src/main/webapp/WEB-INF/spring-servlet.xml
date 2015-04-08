@@ -13,12 +13,11 @@
 
 	<!-- 扫描web包，应用Spring的注解 -->
 	<context:component-scan base-package="cn.com.secbuy.api" />
-	<context:component-scan base-package="cn.com.secbuy.controller" />
 
 	<!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/view/"
+		p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/"
 		p:suffix=".html" />
 
 	<!-- 自动解析action返回值 解析成json格式 -->

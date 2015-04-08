@@ -24,7 +24,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
 	@Override
 	public UserDTO findUserByAccountAndPwd(String account, String pwd) {
-		String sql = "select u.accessid,u.contact,u.id,u.name,u.nickname,u.profileimageurl,u.sex,u.status,u.usermail from user u "
+		String sql = "select u.accessid,u.contact,u.id,u.name,u.nickname,u.sex,u.status,u.usermail from user u "
 				+ "where (u.nickname=? or u.usermail=?) and u.password=? and u.status=1";
 		final UserDTO user = new UserDTO();
 		Object[] args = new Object[] { account, account, pwd };
@@ -37,7 +37,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.setNickName(rs.getString("nickname"));
-				user.setProfileimageurl(rs.getString("profileimageurl"));
 				user.setSex(rs.getString("sex"));
 				user.setStatus(rs.getInt("status"));
 				user.setUserMail(rs.getString("usermail"));
@@ -48,7 +47,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
 	@Override
 	public UserDTO findUserByAccessid(String accessid) {
-		String sql = "select u.accessid,u.contact,u.id,u.name,u.nickname,u.profileimageurl,u.sex,u.status,u.usermail from user u "
+		String sql = "select u.accessid,u.contact,u.id,u.name,u.nickname,u.sex,u.status,u.usermail from user u "
 				+ "where u.accessid=? and u.status=1";
 		final UserDTO user = new UserDTO();
 		Object[] args = new Object[] { accessid };
@@ -61,7 +60,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.setNickName(rs.getString("nickname"));
-				user.setProfileimageurl(rs.getString("profileimageurl"));
 				user.setSex(rs.getString("sex"));
 				user.setStatus(rs.getInt("status"));
 				user.setUserMail(rs.getString("usermail"));
@@ -71,16 +69,23 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 	}
 
 	@Override
+	public boolean findRealUserByAccessid(String accessid) {
+		String sql = "select count(u.id) from user u where u.accessid=? and and u.status=1";
+		Object[] args = new Object[] { accessid };
+		long result = this.jdbcTemplate.queryForLong(sql, args);
+		return result == 1;
+	}
+
+	@Override
 	public boolean addUser(User user) {
-		String sql = "insert into user(nickname,usermail,password,name,sex,contact,profileimageurl,role,status) values(?,?,?,?,?,?,?,?,0,1)";
+		String sql = "insert into user(nickname,usermail,password,name,sex,contact,role,status) values(?,?,?,?,?,?,0,1)";
 		String nickname = user.getNickName();
 		String usermail = user.getUserMail();
 		String password = user.getPassword();
 		String name = user.getName();
 		String sex = user.getSex();
 		String contact = user.getContact();
-		String profileimageurl = user.getProfileImageUrl();
-		Object[] args = new Object[] { nickname, usermail, password, name, sex, contact, profileimageurl };
+		Object[] args = new Object[] { nickname, usermail, password, name, sex, contact };
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
 	}
@@ -95,8 +100,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
 	@Override
 	public UserDTO findUserByID(Integer id) {
-		String sql = "select u.accessid,u.contact,u.id,u.name,u.nickname,u.profileimageurl,u.sex,u.status,u.usermail from user u "
-				+ "where id=? and u.status=1";
+		String sql = "select u.accessid,u.contact,u.id,u.name,u.nickname,u.sex,u.status,u.usermail from user u where id=? and u.status=1";
 		final UserDTO user = new UserDTO();
 		Object[] args = new Object[] { id };
 		this.jdbcTemplate.query(sql, args, new RowCallbackHandler() {
@@ -108,7 +112,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.setNickName(rs.getString("nickname"));
-				user.setProfileimageurl(rs.getString("profileimageurl"));
 				user.setSex(rs.getString("sex"));
 				user.setStatus(rs.getInt("status"));
 				user.setUserMail(rs.getString("usermail"));
@@ -127,16 +130,14 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
 	@Override
 	public boolean updateUser(User user) {
-		String sql = "update user u set u.nickname=?,u.usermail=?,u.password=?,u.name=?,u.sex=?,u.contact=?,u.profileimageurl=? where u.id=?";
+		String sql = "update user u set u.nickname=?,u.usermail=?,u.name=?,u.sex=?,u.contact=? where u.id=?";
 		String nickname = user.getNickName();
 		String usermail = user.getUserMail();
-		String password = user.getPassword();
 		String name = user.getName();
 		String sex = user.getSex();
 		String contact = user.getContact();
-		String profileimageurl = user.getProfileImageUrl();
 		Integer id = user.getId();
-		Object[] args = new Object[] { nickname, usermail, password, name, sex, contact, profileimageurl, id };
+		Object[] args = new Object[] { nickname, usermail, name, sex, contact, id };
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
 	}
@@ -148,4 +149,5 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
 	}
+
 }

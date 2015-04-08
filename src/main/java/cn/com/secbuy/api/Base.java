@@ -1,8 +1,12 @@
 package cn.com.secbuy.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.com.secbuy.util.DateConver;
@@ -31,7 +35,6 @@ public class Base {
 	protected static int COOKIE_MAXAGE = 7 * 24 * 60 * 60;// cookie保存一周
 	protected static String COOKIE_NICKNAME = "nickName";// cookie昵称
 	protected static String COOKIE_ACCESSTOKEN = "accessToken";// cookie登录令牌
-	protected static String COOKIE_PROFILEIMAGEURL = "profileImageUrl";// cookie头像地址
 
 	protected static int PUTSDOWN = 0;// 下架(商品)
 	protected static int WAITING = 1;// 等待审核(商品)
@@ -43,6 +46,8 @@ public class Base {
 	protected static int ALLER = 0;// 全部
 	protected static int SELLER = 1;// 卖家
 	protected static int BUYER = 2;// 买家
+
+	protected static int RECOMMEND = 1;// 推荐
 
 	/**
 	 * 设置cookie（接口方法）
@@ -62,6 +67,77 @@ public class Base {
 			cookie.setMaxAge(maxAge);
 		}
 		response.addCookie(cookie);
+	}
+
+	/**
+	 * 修改cookie值　
+	 * 
+	 * @param request
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 */
+	protected void updateCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, int maxAge) {
+		Cookie cookies[] = request.getCookies();
+		Cookie c = null;
+		for (int i = 0; i < cookies.length; i++) {
+			c = cookies[i];
+			if (name.equals(c.getName().trim())) {
+				c.setValue(value);
+				c.setMaxAge(maxAge);
+				response.addCookie(c); // 修改后，要更新到浏览器中
+			}
+		}
+	}
+
+	/**
+	 * 清除所有cookie
+	 * 
+	 * @param req
+	 * @param res
+	 */
+	protected void clearCookies(HttpServletRequest req, HttpServletResponse res) {
+		Cookie[] cookies = req.getCookies();
+		for (int i = 0, len = cookies.length; i < len; i++) {
+			Cookie cookie = new Cookie(cookies[i].getName(), null);
+			cookie.setMaxAge(0);
+			cookie.setPath("/");
+			res.addCookie(cookie);
+		}
+	}
+
+	/**
+	 * 编码
+	 * 
+	 * @param str
+	 *            待编码字符
+	 * @return　已编码字符
+	 */
+	protected String encodeUTF8(String str) {
+		String result = "";
+		try {
+			result = URLEncoder.encode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 * 解码
+	 * 
+	 * @param str
+	 *            待解码字符
+	 * @return　已解码字符
+	 */
+	protected String decodeUTF8(String str) {
+		String result = "";
+		try {
+			result = URLDecoder.decode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	/**

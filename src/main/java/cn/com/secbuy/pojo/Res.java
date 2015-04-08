@@ -23,6 +23,7 @@ public class Res implements Serializable {
 	private Date createtime;// 提交时间
 	private Date updatetime;// 修改时间
 	private String putstime;// 通过审核发布时间
+	private int digest;// 0普通商品 1推荐商品
 	private Integer status;// 状态 0下架 1待审核 2发布 3正在交易
 	private Integer cataId;// 分类
 	private Integer userId;// 卖家
@@ -97,6 +98,14 @@ public class Res implements Serializable {
 
 	public void setPutstime(String putstime) {
 		this.putstime = putstime;
+	}
+
+	public int getDigest() {
+		return digest;
+	}
+
+	public void setDigest(int digest) {
+		this.digest = digest;
 	}
 
 	public Integer getStatus() {

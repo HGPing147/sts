@@ -34,6 +34,15 @@ public interface UserDAO {
 	public UserDTO findUserByAccessid(String accessid);
 
 	/**
+	 * 查询拥有accessid登陆标识用户是否存在
+	 * 
+	 * @param accessid
+	 *            登陆标识
+	 * @return
+	 */
+	public boolean findRealUserByAccessid(String accessid);
+
+	/**
 	 * 保存一个用户
 	 * 
 	 * @param user

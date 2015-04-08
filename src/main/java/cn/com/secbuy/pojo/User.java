@@ -19,7 +19,6 @@ public class User implements Serializable {
 	private String password; // 密码
 	private String name; // 姓名
 	private String sex;// 性别
-	private String profileImageUrl;// 头像图片地址
 	private String contact;// 联系方式
 	private Date lastUpdateTime;// 最后登陆更新时间
 	private String accessid;// 访问令牌标识
@@ -72,14 +71,6 @@ public class User implements Serializable {
 
 	public void setSex(String sex) {
 		this.sex = sex;
-	}
-
-	public String getProfileImageUrl() {
-		return profileImageUrl;
-	}
-
-	public void setProfileImageUrl(String profileImageUrl) {
-		this.profileImageUrl = profileImageUrl;
 	}
 
 	public String getContact() {

@@ -43,9 +43,7 @@ public class UserAPI extends Base {
 	 */
 	@RequestMapping(value = "/api/v1/user/login", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> login(HttpServletRequest request, HttpServletResponse response) {
-		String account = request.getParameter("account");// 获取账号
-		String password = request.getParameter("password");// 获取密码
+	public Map<String, Object> login(String account, String password, HttpServletRequest request, HttpServletResponse response) {
 		responseMap = new HashMap<String, Object>();
 		if (StringUtils.isEmpty(account)) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
@@ -63,12 +61,10 @@ public class UserAPI extends Base {
 			userService.updateLastLoginTime(now, user.getId());// 更新用户最后登录时间
 			request.getSession().setAttribute(SESSION_USER, user);// 保存服务器session
 			String nickName = user.getNickName();// 昵称
-			this.addCookie(response, COOKIE_NICKNAME, nickName, COOKIE_MAXAGE);// Cookie保存昵称
+			this.addCookie(response, COOKIE_NICKNAME, this.encodeUTF8(nickName), COOKIE_MAXAGE);// Cookie保存昵称
 			String accessToken = this.getAccessToken(user.getUserMail(), password, DateConver.getTimeStamp(now));// 生成登录令牌
 			userService.addAccessid(user.getId(), accessToken);// 保存令牌
 			this.addCookie(response, COOKIE_ACCESSTOKEN, accessToken, COOKIE_MAXAGE);// Cookie保存登录令牌
-			String profileImageUrl = user.getProfileimageurl();// 头像地址
-			this.addCookie(response, COOKIE_PROFILEIMAGEURL, profileImageUrl, COOKIE_MAXAGE);// Cookie保存头像地址
 			responseMap.put(STATUS_CODE, OK);// 返回验证错误状态码
 			responseMap.put(OK_MESSAGE, "登录成功！");// 返回错误信息
 		} else {
@@ -79,22 +75,44 @@ public class UserAPI extends Base {
 	}
 
 	/**
+	 * 注销
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/user/logout", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> logout(HttpServletRequest request, HttpServletResponse response) {
+		responseMap = new HashMap<String, Object>();
+		this.clearCookies(request, response);
+		request.getSession().removeAttribute(SESSION_USER);
+		responseMap.put(STATUS_CODE, OK);// 返回状态码
+		responseMap.put(OK_MESSAGE, "注销成功！");// 返回信息
+		return responseMap;
+	}
+
+	/**
 	 * 用户注册
 	 * 
 	 * @param user
 	 *            用户信息
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/user/register", method = RequestMethod.PUT)
+	@RequestMapping(value = "/api/v1/user/register", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> register(User user) {
+	public Map<String, Object> register(String nickName, String userMail, String password, String name, String sex, String contact) {
 		responseMap = new HashMap<String, Object>();
-		if (user == null) {
-			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
-			responseMap.put(ERROR_MESSAGE, "用户不能为空！");// 返回错误信息
-			return responseMap;
-		}
-		user.setPassword(MD5Secure.secure(user.getPassword()));// 密码加密
+		User user = new User();
+		Date now = new Date();
+		user.setAccessid(this.getAccessToken(userMail, password, DateConver.getTimeStamp(now)));
+		user.setContact(contact);
+		user.setLastUpdateTime(now);
+		user.setName(name);
+		user.setNickName(nickName);
+		user.setPassword(MD5Secure.secure(password));// 密码加密
+		user.setSex(sex);
+		user.setUserMail(userMail);
 		boolean result = userService.addUser(user);// 数据存入
 		if (result) {
 			responseMap.put(STATUS_CODE, OK);// 返回验证错误状态码
@@ -113,20 +131,20 @@ public class UserAPI extends Base {
 	 *            用户序号
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/user/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/v1/user/{accessToken}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> showUserInfo(@PathVariable String userId) {
+	public Map<String, Object> showUserInfo(@PathVariable String accessToken) {
 		responseMap = new HashMap<String, Object>();
-		if (!StringUtils.isNumeric(userId)) {
+		if (StringUtils.isEmpty(accessToken)) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
-			responseMap.put(ERROR_MESSAGE, "用户id不能为空！");// 返回错误信息
+			responseMap.put(ERROR_MESSAGE, "用户令牌不能为空！");// 返回错误信息
 			return responseMap;
 		}
-		UserDTO user = userService.findUserByID(Integer.valueOf(userId));// 查询用户信息
+		UserDTO user = userService.findUserByAccessid(accessToken);
 		if (user != null && user.getId() != null) {
 			responseMap.put(STATUS_CODE, OK);// 返回验证错误状态码
 			responseMap.put(DATA, user);// 返回错误信息
-			responseMap.put(OK_MESSAGE, "注册成功！");// 返回错误信息
+			responseMap.put(OK_MESSAGE, "获取用户信息成功！");// 返回错误信息
 		} else {
 			responseMap.put(STATUS_CODE, NOT_FOUND);// 返回404未找到记录状态码
 			responseMap.put(ERROR_MESSAGE, "用户记录不存在！");// 返回错误信息
@@ -145,7 +163,7 @@ public class UserAPI extends Base {
 	 */
 	@RequestMapping(value = "/api/v1/user/{userId}", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> modifyUser(@PathVariable String userId, User updatedUser) {
+	public Map<String, Object> modifyUser(@PathVariable String userId, User updatedUser, HttpServletRequest request, HttpServletResponse response) {
 		responseMap = new HashMap<String, Object>();
 		if (!StringUtils.isNumeric(userId)) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
@@ -160,6 +178,8 @@ public class UserAPI extends Base {
 		updatedUser.setId(Integer.valueOf(userId));
 		boolean result = userService.updateUser(updatedUser);
 		if (result) {
+			System.out.println(updatedUser.getNickName() + "===");
+			this.updateCookie(request, response, COOKIE_NICKNAME, this.encodeUTF8(updatedUser.getNickName()), COOKIE_MAXAGE);
 			responseMap.put(STATUS_CODE, OK);// 返回验证错误状态码
 			responseMap.put(OK_MESSAGE, "修改成功！");// 返回错误信息
 		} else {
@@ -178,7 +198,7 @@ public class UserAPI extends Base {
 	 *            新密码
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/user/{userId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/v1/user/{userId}/edit-password", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> modifyPassword(@PathVariable String userId, String password) {
 		responseMap = new HashMap<String, Object>();
@@ -192,7 +212,7 @@ public class UserAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "修改密码不能为空！");// 返回错误信息
 			return responseMap;
 		}
-		boolean result = userService.updateUserPwd(Integer.valueOf(userId), password);
+		boolean result = userService.updateUserPwd(Integer.valueOf(userId), MD5Secure.secure(password));
 		if (result) {
 			responseMap.put(STATUS_CODE, OK);// 返回验证错误状态码
 			responseMap.put(OK_MESSAGE, "修改密码成功！");// 返回错误信息
