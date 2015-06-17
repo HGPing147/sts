@@ -1,0 +1,469 @@
+<!DOCTYPE HTML>
+<html>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<title>平台主页</title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="css/grid.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/amazeui.min.css" media="screen" rel="stylesheet">
+<link href="css/style.css" media="screen" rel="stylesheet"
+	type="text/css">
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="webjs/base.js"></script>
+<script src="webjs/head_user.js"></script>
+<script src="webjs/index_catagory.js"></script>
+<script src="webjs/index_newestReses.js"></script>
+<script src="webjs/index_recommendReses.js"></script>
+<script src="js/amazeui.min.js"></script>
+<script src="js/html5.js"></script>
+<script src="js/jflow.plus.js"></script>
+<script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
+<script>
+	//slider
+	$(document).ready(function() {
+		$("#myController").jFlow({
+			controller : ".control", // must be class, use . sign
+			slideWrapper : "#jFlowSlider", // must be id, use # sign
+			slides : "#slider", // the div where all your sliding divs are nested in
+			selectedWrapper : "jFlowSelected", // just pure text, no sign
+			width : "984px", // this is the width for the content-slider
+			height : "480px", // this is the height for the content-slider
+			duration : 400, // time in miliseconds to transition one slide
+			prev : ".slidprev", // must be class, use . sign
+			next : ".slidnext", // must be class, use . sign
+			auto : true
+		});
+	});
+</script>
+<script>
+	$(function() {
+		$('#list_product').carouFredSel({
+			prev : '#prev_c1',
+			next : '#next_c1',
+			auto : false
+		});
+		$('#list_product2').carouFredSel({
+			prev : '#prev_c2',
+			next : '#next_c2',
+			auto : false
+		});
+		$(window).resize();
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$("button").click(function() {
+			$(this).addClass('click')
+		});
+	})
+</script>
+</head>
+<body>
+	<!-- header begin -->
+	<div class="container_12">
+		<header id="branding">
+			<div class="grid_3">
+				<div>
+					<h1 id="site_logo">
+						<a href="index.html" title=""><img src="images/logo.png"
+							alt="Online Store Theme Logo" /></a>
+					</h1>
+					<h2 id="site_description">Online Store Theme</h2>
+				</div>
+			</div>
+			<div class="grid_9">
+				<nav class="private">
+					<ul class="unlogin">
+						<li><a href="sign-in.html">登录</a></li>
+						<li class="separator">|</li>
+						<li><a href="sign-up.html">注册</a></li>
+					</ul>
+					<ul class="logined">
+						<li><a href="javascript:;">用户名</a></li>
+						<li class="separator">|</li>
+						<li><a href="javascript:;">退出</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+	</div>
+	<!-- header end -->
+	<div class="clear"></div>
+
+	<!-- nav begin -->
+	<div id="block_nav_primary">
+		<div class="container_12">
+			<div class="grid_12">
+				<nav class="primary catagories">
+					<ul>
+						<!-- 						<li class="curent"><a href="index.html">首页</a></li> -->
+						<!-- 						<li><a href="catalog_grid.html">服饰</a></li> -->
+						<!-- 						<li><a href="catalog_grid.html">生活用品</a></li> -->
+						<!-- 						<li><a href="catalog_grid.html">电子产品</a></li> -->
+						<!-- 						<li><a href="catalog_grid.html">书籍</a></li> -->
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- nav end -->
+	<div class="clear"></div>
+
+	<!-- slider begin -->
+	<div class="container_12">
+		<div class="grid_12">
+			<div class="slidprev">
+				<span>Prev</span>
+			</div>
+			<div class="slidnext">
+				<span>Next</span>
+			</div>
+			<div id="slider">
+				<div id="slide1">
+					<img src="images/content/slide1.jpg" alt="" title="" />
+					<div class="slid_text">
+						<h3 class="slid_title">
+							<span>Breeze Theme</span>
+						</h3>
+						<p>
+							<span>Breeze is the 14 stylish HTML templates,</span>
+						</p>
+						<p>
+							<span>which will helps you boost sales</span>
+						</p>
+						<p>
+							<span>and receive good feedback from your clients.</span>
+						</p>
+					</div>
+				</div>
+				<div id="slide2">
+					<img src="images/content/slide2.jpg" alt="" title="" />
+					<div class="slid_text">
+						<h3 class="slid_title">
+							<span>Flexibility</span>
+						</h3>
+						<p>
+							<span>Every product, which you are selling,</span>
+						</p>
+						<p>
+							<span>will look great with Breeze theme.</span>
+						</p>
+					</div>
+				</div>
+				<div id="slide3">
+					<img src="images/content/slide3.jpg" alt="" title="" />
+					<div class="slid_text">
+						<h3 class="slid_title">
+							<span>Accuracy and Easiness</span>
+						</h3>
+						<p>
+							<span>Breeze design is mere and accurate,</span>
+						</p>
+						<p>
+							<span>so it will satisfy everybody.</span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div id="myController">
+				<div class="control">
+					<span>1</span>
+				</div>
+				<div class="control">
+					<span>2</span>
+				</div>
+				<div class="control">
+					<span>3</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- slider end -->
+
+	<!-- 商品列表 begin -->
+	<section id="main" class="home">
+		<div class="container_12">
+			<div class="clear"></div>
+			<!-- 最新商品 begin -->
+			<div class="carousel  newest">
+				<div class="c_header">
+					<div class="grid_10">
+						<h2>最新商品</h2>
+					</div>
+					<div class="grid_2">
+						<a id="next_c1" class="next arows" href="#"><span>Next</span></a>
+						<a id="prev_c1" class="prev arows" href="#"><span>Prev</span></a>
+					</div>
+				</div>
+				<div class="list_carousel">
+					<!-- list begin -->
+					<ul id="list_product" class="list_product">
+						<!-- 						<li class=""> -->
+						<!-- 							<div class="grid_3 product"> -->
+						<!-- 								<img class="sale" src="images/pro_selling.png" alt="Sale" /> -->
+						<!-- 								<div class="prev"> -->
+						<!-- 									<a href="product_page.html"><img src="images/product_1.png" -->
+						<!-- 										alt="" title="" /></a> -->
+						<!-- 								</div> -->
+						<!-- 								<h3 class="title">物品名称物品名称长长长长长</h3> -->
+						<!-- 								<div class="cart"> -->
+						<!-- 									<div class="price"> -->
+						<!-- 										<div class="vert"> -->
+						<!-- 											<div class="price_new">$550.00</div> -->
+						<!-- 										</div> -->
+						<!-- 									</div> -->
+						<!-- 									<a href="javascript:;" class="buy" title="购买"></a> <a -->
+						<!-- 										href="javascript:;" class="link" title="联系"></a> <a -->
+						<!-- 										href="javascript:;" class="detail" title=" 详细信息" -->
+						<!-- 										data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+						<!-- 								</div> -->
+						<!-- 							</div> -->
+						<!-- 						</li> -->
+						<!-- 						<li class=""> -->
+						<!-- 							<div class="grid_3 product"> -->
+						<!-- 								<img class="sale" src="images/pro_selled.png" alt="Sale" /> -->
+						<!-- 								<div class="prev"> -->
+						<!-- 									<a href="product_page.html"><img src="images/product_1.png" -->
+						<!-- 										alt="" title="" /></a> -->
+						<!-- 								</div> -->
+						<!-- 								.prev -->
+						<!-- 								<h3 class="title">物品名称物品名称长长长长长</h3> -->
+						<!-- 								<div class="cart"> -->
+						<!-- 									<div class="price"> -->
+						<!-- 										<div class="vert"> -->
+						<!-- 											<div class="price_new">$550.00</div> -->
+						<!-- 										</div> -->
+						<!-- 									</div> -->
+						<!-- 									<a href="#" class="buy" title="购买"></a> <a href="#" -->
+						<!-- 										class="link" title="联系"></a> <a href="#" class="detail" -->
+						<!-- 										title=" 详细信息"></a> -->
+						<!-- 								</div> -->
+						<!-- 							</div> -->
+						<!-- 						</li> -->
+
+						<!-- 						<li class=""> -->
+						<!-- 							<div class="grid_3 product"> -->
+						<!-- 								<img class="sale" src="images/pro_trading.png" alt="Sale" /> -->
+						<!-- 								<div class="prev"> -->
+						<!-- 									<a href="product_page.html"><img src="images/product_4.png" -->
+						<!-- 										alt="" title="" /></a> -->
+						<!-- 								</div> -->
+						<!-- 								<h3 class="title">物品名称物品名称长长长长长</h3> -->
+						<!-- 								<div class="cart"> -->
+						<!-- 									<div class="price"> -->
+						<!-- 										<div class="vert"> -->
+						<!-- 											<div class="price_new">$550.00</div> -->
+						<!-- 										</div> -->
+						<!-- 									</div> -->
+						<!-- 									<a href="#" class="buy" title="购买"></a> <a href="#" -->
+						<!-- 										class="link" title="联系"></a> <a href="#" class="detail" -->
+						<!-- 										title=" 详细信息"></a> -->
+						<!-- 								</div> -->
+						<!-- 							</div> -->
+						<!-- 						</li> -->
+
+						<!-- 						<li class=""> -->
+						<!-- 							<div class="grid_3 product"> -->
+						<!-- 								<img class="sale" src="images/pro_selling.png" alt="Sale" /> -->
+						<!-- 								<div class="prev"> -->
+						<!-- 									<a href="product_page.html"><img src="images/product_3.png" -->
+						<!-- 										alt="" title="" /></a> -->
+						<!-- 								</div> -->
+						<!-- 								<h3 class="title">物品名称物品名称长长长长长</h3> -->
+						<!-- 								<div class="cart"> -->
+						<!-- 									<div class="price"> -->
+						<!-- 										<div class="vert"> -->
+						<!-- 											<div class="price_new">$550.00</div> -->
+						<!-- 										</div> -->
+						<!-- 									</div> -->
+						<!-- 									<a href="#" class="buy" title="购买"></a> <a href="#" -->
+						<!-- 										class="link" title="联系"></a> <a href="#" class="detail" -->
+						<!-- 										title=" 详细信息"></a> -->
+						<!-- 								</div> -->
+						<!-- 							</div> -->
+						<!-- 						</li> -->
+
+						<!-- 						<li class=""> -->
+						<!-- 							<div class="grid_3 product"> -->
+						<!-- 								<img class="sale" src="images/pro_selling.png" alt="Sale" /> -->
+						<!-- 								<div class="prev"> -->
+						<!-- 									<a href="product_page.html"><img src="images/product_2.png" -->
+						<!-- 										alt="" title="" /></a> -->
+						<!-- 								</div> -->
+						<!-- 								<h3 class="title">物品名称物品名称长长长长长</h3> -->
+						<!-- 								<div class="cart"> -->
+						<!-- 									<div class="price"> -->
+						<!-- 										<div class="vert"> -->
+						<!-- 											<div class="price_new">$550.00</div> -->
+						<!-- 										</div> -->
+						<!-- 									</div> -->
+						<!-- 									<a href="#" class="buy" title="购买"></a> <a href="#" -->
+						<!-- 										class="link" title="联系"></a> <a href="#" class="detail" -->
+						<!-- 										title=" 详细信息"></a> -->
+						<!-- 								</div> -->
+						<!-- 							</div> -->
+						<!-- 						</li> -->
+					</ul>
+					<!-- list end -->
+				</div>
+			</div>
+			<!-- 最新商品 end -->
+			<!-- 推荐商品 begin -->
+			<div class="carousel recommend">
+				<div class="c_header">
+					<div class="grid_10">
+						<h2>推荐商品</h2>
+					</div>
+					<div class="grid_2">
+						<a id="next_c2" class="next arows" href="#"><span>Next</span></a>
+						<a id="prev_c2" class="prev arows" href="#"><span>Prev</span></a>
+					</div>
+				</div>
+				<div class="list_carousel">
+					<ul id="list_product2" class="list_product">
+												<li class="">
+													<div class="grid_3 product">
+														<img class="sale" src="images/pro_selling.png" alt="Sale" />
+														<div class="prev">
+															<a href="product_page.html"><img src="images/product_1.png"
+																alt="" title="" /></a>
+														</div>
+														<h3 class="title">物品名称物品名称长长长长长</h3>
+														<div class="cart">
+															<div class="price">
+																<div class="vert">
+																	<div class="price_new">$550.00</div>
+																</div>
+															</div>
+															<a href="#" class="buy" title="购买"></a> <a href="#"
+																class="link" title="联系"></a> <a href="#" class="detail"
+																title=" 详细信息"></a>
+														</div>
+													</div>
+												</li>
+
+												<li class="">
+													<div class="grid_3 product">
+														<img class="sale" src="images/pro_selling.png" alt="Sale" />
+														<div class="prev">
+															<a href="product_page.html"><img src="images/product_2.png"
+																alt="" title="" /></a>
+														</div>
+														<h3 class="title">物品名称物品名称长长长长长</h3>
+														<div class="cart">
+															<div class="price">
+																<div class="vert">
+																	<div class="price_new">$550.00</div>
+																</div>
+															</div>
+															<a href="#" class="buy" title="购买"></a> <a href="#"
+																class="link" title="联系"></a> <a href="#" class="detail"
+																title=" 详细信息"></a>
+														</div>
+													</div>
+												</li>
+
+												<li class="">
+													<div class="grid_3 product">
+														<img class="sale" src="images/pro_selling.png" alt="Sale" />
+														<div class="prev">
+															<a href="product_page.html"><img src="images/product_3.png"
+																alt="" title="" /></a>
+														</div>
+														<h3 class="title">物品名称物品名称长长长长长</h3>
+														<div class="cart">
+															<div class="price">
+																<div class="vert">
+																	<div class="price_new">$550.00</div>
+																</div>
+															</div>
+															<a href="#" class="buy" title="购买"></a> <a href="#"
+																class="link" title="联系"></a> <a href="#" class="detail"
+																title=" 详细信息"></a>
+														</div>
+													</div>
+												</li>
+
+												<li class="">
+													<div class="grid_3 product">
+														<img class="sale" src="images/pro_selling.png" alt="Sale" />
+														<div class="prev">
+															<a href="product_page.html"><img src="images/product_4.png"
+																alt="" title="" /></a>
+														</div>
+														<h3 class="title">物品名称物品名称长长长长长</h3>
+														<div class="cart">
+															<div class="price">
+																<div class="vert">
+																	<div class="price_new">$550.00</div>
+																</div>
+															</div>
+															<a href="#" class="buy" title="购买"></a> <a href="#"
+																class="link" title="联系"></a> <a href="#" class="detail"
+																title=" 详细信息"></a>
+														</div>
+													</div>
+												</li>
+
+												<li class="">
+													<div class="grid_3 product">
+														<img class="sale" src="images/pro_selling.png" alt="Sale" />
+														<div class="prev">
+															<a href="product_page.html"><img src="images/product_5.png"
+																alt="" title="" /></a>
+														</div>
+														<h3 class="title">物品名称物品名称长长长长长</h3>
+														<div class="cart">
+															<div class="price">
+																<div class="vert">
+																	<div class="price_new">$550.00</div>
+																</div>
+															</div>
+															<a href="#" class="buy" title="购买"></a> <a href="#"
+																class="link" title="联系"></a> <a href="#" class="detail"
+																title=" 详细信息"></a>
+														</div>
+													</div>
+												</li>
+					</ul>
+					<!-- #list_product2 -->
+				</div>
+				<!-- .list_carousel -->
+			</div>
+			<!-- 推荐商品 end -->
+			<div class="clear"></div>
+		</div>
+	</section>
+	<!-- 商品列表 end -->
+	<div class="clear"></div>
+	<!-- 弹出层 -->
+	<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+		<div class="am-modal-dialog resDetail">
+			<div class="am-modal-hd">
+				<span>物品名称</span><a href="javascript: void(0)"
+					class="am-close am-close-spin" data-am-modal-close>&times;</a>
+			</div>
+			<div class="am-modal-bd">
+				<!-- 				物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> -->
+				<!-- 				物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> -->
+				<!-- 				物品描述<br /> 物品描述<br /> 物品描述<br /> -->
+			</div>
+		</div>
+	</div>
+
+	<!-- 弹出层 -->
+	<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-2">
+		<div class="am-modal-dialog userContact">
+			<div class="am-modal-hd">
+				<a href="javascript: void(0)" class="am-close am-close-spin"
+					data-am-modal-close>&times;</a>
+			</div>
+			<div class="am-modal-bd">联系方式</div>
+		</div>
+	</div>
+</body>
+</html>

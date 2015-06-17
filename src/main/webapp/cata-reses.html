@@ -1,0 +1,400 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>商品列表页</title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="css/grid.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/amazeui.min.css" media="screen" rel="stylesheet">
+<link href="css/style.css" media="screen" rel="stylesheet"
+	type="text/css">
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="webjs/base.js"></script>
+<script src="webjs/head_user.js"></script>
+<script src="webjs/res_catagory.js"></script>
+<script src="js/amazeui.min.js"></script>
+<script src="js/html5.js"></script>
+<script src="js/jflow.plus.js"></script>
+<script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
+<script src="js/checkbox.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/selectBox.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$("select").selectBox();
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$("button").click(function() {
+			$(this).addClass('click')
+		});
+	})
+</script>
+
+</head>
+<body>
+	<!-- header begin -->
+	<div class="container_12">
+		<header id="branding">
+			<div class="grid_3">
+				<div>
+					<h1 id="site_logo">
+						<a href="index.html" title=""><img src="images/logo.png"
+							alt="Online Store Theme Logo" /></a>
+					</h1>
+					<h2 id="site_description">Online Store Theme</h2>
+				</div>
+			</div>
+			<!-- 			<div class="grid_3"> -->
+			<!-- 				<form class="search"> -->
+			<!-- 					<input type="text" name="search" class="entry_form" value="" -->
+			<!-- 						placeholder="Search entire store here..." /> -->
+			<!-- 				</form> -->
+			<!-- 			</div> -->
+			<div class="grid_9">
+				<nav class="private">
+					<ul class="unlogin">
+						<li><a href="sign-in.html">登录</a></li>
+						<li class="separator">|</li>
+						<li><a href="sign-up.html">注册</a></li>
+					</ul>
+					<ul class="logined">
+						<li><a href="javascript:;">用户名</a></li>
+						<li class="separator">|</li>
+						<li><a href="javascript:;">退出</a></li>
+					</ul>
+				</nav>
+				<!-- .private -->
+			</div>
+			<!-- .grid_6 -->
+		</header>
+		<!-- #branding -->
+	</div>
+	<!-- header end -->
+	<div class="clear"></div>
+
+	<!-- nav begin -->
+	<div id="block_nav_primary">
+		<div class="container_12">
+			<div class="grid_12">
+				<nav class="primary catagories">
+					<ul>
+						<!-- 						<li ><a href="index.html">首页</a></li> -->
+						<!-- 						<li class="curent"><a href="catalog_grid.html">服饰</a></li> -->
+						<!-- 						<li><a href="catalog_grid.html">生活用品</a></li> -->
+						<!-- 						<li><a href="catalog_grid.html">电子产品</a></li> -->
+						<!-- 						<li><a href="catalog_grid.html">书籍</a></li> -->
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- nav end -->
+	<div class="clear"></div>
+
+	<section id="main">
+		<div class="container_12">
+			<div id="content" class="grid_12">
+				<h1 class="page_title">分类名称</h1>
+				<!--  商品列表 end -->
+				<div class="grid_product">
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selling.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_1.png" alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selling.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_1.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selling.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_1.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selling.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_1.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selled.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_3.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selled.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_3.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selled.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_3.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_selled.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_3.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_trading.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_4.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_trading.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_4.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_trading.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_4.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+
+					<!-- 					<div class="grid_3 product"> -->
+					<!-- 						<img class="sale" src="images/pro_trading.png" alt="Sale" /> -->
+					<!-- 						<div class="prev"> -->
+					<!-- 							<a href="product_page.html"><img src="images/product_4.png" -->
+					<!-- 								alt="" title="" /></a> -->
+					<!-- 						</div> -->
+					<!-- 						<h3 class="title">物品名称物品名称长长长长长</h3> -->
+					<!-- 						<div class="cart"> -->
+					<!-- 							<div class="price"> -->
+					<!-- 								<div class="vert"> -->
+					<!-- 									<div class="price_new">$550.00</div> -->
+					<!-- 								</div> -->
+					<!-- 							</div> -->
+					<!-- 							<a href="#" class="buy" title="购买"></a> <a href="#" class="link" -->
+					<!-- 								title="联系"></a> <a href="javascript:;" class="detail" -->
+					<!-- 								title=" 详细信息" -->
+					<!-- 								data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}"></a> -->
+					<!-- 						</div> -->
+					<!-- 					</div> -->
+					<div class="clear"></div>
+				</div>
+				<!--  商品列表 end -->
+				<div class="clear"></div>
+				<!--  分页 begin -->
+				<div class="pagination">
+					<ul>
+						<!-- 						<li class="prev"><span>&#8592;</span></li> -->
+						<!-- 						<li class="curent"><a href="#">1</a></li> -->
+						<!-- 						<li><a href="#">2</a></li> -->
+						<!-- 						<li><a href="#">3</a></li> -->
+						<!-- 						<li><a href="#">4</a></li> -->
+						<!-- 						<li><a href="#">5</a></li> -->
+						<!-- 						<li><span>...</span></li> -->
+						<!-- 						<li><a href="#">100</a></li> -->
+						<!-- 						<li class="next"><a href="#">&#8594;</a></li> -->
+					</ul>
+				</div>
+				<!--  分页 end -->
+			</div>
+			<div class="clear"></div>
+		</div>
+	</section>
+	<div class="clear"></div>
+	<!-- 弹出层 -->
+	<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+		<div class="am-modal-dialog resDetail">
+			<div class="am-modal-hd">
+				<span>物品名称</span> <a href="javascript: void(0)"
+					class="am-close am-close-spin" data-am-modal-close>&times;</a>
+			</div>
+			<div class="am-modal-bd">
+				<!-- 				物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> -->
+				<!-- 				物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> 物品描述<br /> -->
+				<!-- 				物品描述<br /> 物品描述<br /> 物品描述<br /> -->
+			</div>
+		</div>
+	</div>
+
+	<!-- 弹出层 -->
+	<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-2">
+		<div class="am-modal-dialog userContact">
+			<div class="am-modal-hd">
+				<a href="javascript: void(0)" class="am-close am-close-spin"
+					data-am-modal-close>&times;</a>
+			</div>
+			<div class="am-modal-bd">联系方式</div>
+		</div>
+	</div>
+	<script src="webjs/res_list.js"></script>
+</body>
+</html>

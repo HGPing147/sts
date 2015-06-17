@@ -1,8 +1,13 @@
 package cn.com.secbuy.api;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.com.secbuy.dto.ResDTO;
 import cn.com.secbuy.dto.UserDTO;
 import cn.com.secbuy.pojo.User;
 import cn.com.secbuy.service.UserService;
 import cn.com.secbuy.util.DateConver;
 import cn.com.secbuy.util.MD5Secure;
+import cn.com.secbuy.util.Pagination;
 
 /**
  * @ClassName: UserController
@@ -260,6 +267,106 @@ public class UserAPI extends Base {
 		} else {
 			responseMap.put(STATUS_CODE, NOT_FOUND);// 返回404未找到记录状态码
 			responseMap.put(ERROR_MESSAGE, "用户记录不存在！");// 返回错误信息
+		}
+		return responseMap;
+	}
+
+	/**
+	 * 管理员登陆
+	 * 
+	 * @param userName
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/admin/login", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> adminLogin(String userName, String password) {
+		responseMap = new HashMap<String, Object>();
+		Properties prop = new Properties();
+		InputStream in = UserAPI.class.getClassLoader().getResourceAsStream("/admin.properties");
+		String adminName = "";
+		String adminPassword = "";
+		try {
+			prop.load(in);
+			adminName = prop.getProperty("adminName").trim();
+			adminPassword = prop.getProperty("adminPassword").trim();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		// 验证用户名密码
+		if (adminName.equals(userName.trim()) && adminPassword.equals(password.trim())) {
+			responseMap.put(STATUS_CODE, OK);
+			responseMap.put(OK_MESSAGE, "验证成功！");
+		} else {
+			responseMap.put(STATUS_CODE, NOT_FOUND);
+			responseMap.put(ERROR_MESSAGE, "验证失败！");
+		}
+		return responseMap;
+	}
+
+	/**
+	 * 获取用户
+	 * 
+	 * @param pageNow
+	 *            当前页
+	 * @param key
+	 *            关键字
+	 * @return 用户集合
+	 */
+	@RequestMapping(value = "/api/v1/admin/users", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getUsers(String pageNow, String key) {
+		responseMap = new HashMap<String, Object>();
+		if (!StringUtils.isNumeric(pageNow)) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
+			return responseMap;
+		}
+		long rows = userService.findUserRows(key);// 获取总记录数
+		if (rows > 0) {
+			List<UserDTO> users = userService.findLimitedUsers(Long.valueOf(pageNow), Pagination.PAGESIZE, key);
+			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
+			responseMap.put(DATA, users);
+			responseMap.put(PAGE, page);
+		} else {
+			Pagination page = new Pagination(0, 0);// 分页信息
+			responseMap.put(DATA, new ArrayList<ResDTO>());
+			responseMap.put(PAGE, page);
+		}
+		return responseMap;
+	}
+
+	/**
+	 * 删除用户
+	 * 
+	 * @param userId
+	 *            用户序号
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/admin/users/{userId}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public Map<String, Object> delUser(@PathVariable String userId) {
+		responseMap = new HashMap<String, Object>();
+		if (!StringUtils.isNumeric(userId)) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "用户Id必须是数字！");// 返回错误信息
+			return responseMap;
+		}
+		boolean ifDeleted = userService.delUser(Integer.valueOf(userId));// 删除
+		if (ifDeleted) {
+			responseMap.put(STATUS_CODE, OK);
+			responseMap.put(OK_MESSAGE, "删除用户成功！");
+		} else {
+			responseMap.put(STATUS_CODE, INTERNAL_SERVER_ERROR);// 返回请求状态码
+			responseMap.put(ERROR_MESSAGE, "删除功能异常！");// 返回信息
 		}
 		return responseMap;
 	}

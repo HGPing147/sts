@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>我的物品</title>
+
+<link rel="shortcut icon" href="favicon.ico">
+<link href="css/style.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/grid.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link rel="stylesheet" href="css/jquery.jqzoom.css" type="text/css">
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="webjs/base.js"></script>
+<script src="webjs/head_user.js"></script>
+<script src="webjs/index_catagory.js"></script>
+<script src="js/html5.js"></script>
+<script src="js/jflow.plus.js"></script>
+<script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
+<script src="js/checkbox.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/selectBox.js"></script>
+<script src="js/jquery.jqzoom-core.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.jqzoom').jqzoom({
+			zoomType : 'standard',
+			lens : true,
+			preloadImages : true,
+			alwaysOn : false
+		});
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$('#wrapper_tab a').click(function() {
+			if ($(this).attr('class') != $('#wrapper_tab').attr('class')) {
+				$('#wrapper_tab').attr('class', $(this).attr('class'));
+			}
+			return false;
+		});
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$("button").click(function() {
+			$(this).addClass('click')
+		});
+	})
+</script>
+
+</head>
+<body>
+	<!-- header begin -->
+	<div class="container_12">
+		<header id="branding">
+			<div class="grid_3">
+				<div>
+					<h1 id="site_logo">
+						<a href="index.html" title=""><img src="images/logo.png"
+							alt="Online Store Theme Logo" /></a>
+					</h1>
+					<h2 id="site_description">Online Store Theme</h2>
+				</div>
+			</div>
+			<div class="grid_9">
+				<nav class="private">
+					<ul class="unlogin">
+						<li><a href="sign-in.html">登录</a></li>
+						<li class="separator">|</li>
+						<li><a href="sign-up.html">注册</a></li>
+					</ul>
+					<ul class="logined">
+						<li><a href="javascript:;">用户名</a></li>
+						<li class="separator">|</li>
+						<li><a href="javascript:;">退出</a></li>
+					</ul>
+				</nav>
+				<!-- .private -->
+			</div>
+			<!-- .grid_6 -->
+		</header>
+		<!-- #branding -->
+	</div>
+	<!-- header end -->
+	<div class="clear"></div>
+
+	<!-- nav begin -->
+	<div id="block_nav_primary">
+		<div class="container_12">
+			<div class="grid_12">
+				<nav class="primary catagories">
+					<ul>
+						<!--             <li class="curent"><a href="index.html">首页</a></li> -->
+						<!--             <li><a href="catalog_grid.html">服饰</a></li> -->
+						<!--             <li><a href="catalog_grid.html">生活用品</a></li> -->
+						<!--             <li><a href="catalog_grid.html">电子产品</a></li> -->
+						<!--             <li><a href="catalog_grid.html">书籍</a></li> -->
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- nav end -->
+	<div class="clear"></div>
+
+	<section id="main">
+		<div class="container_12">
+			<div id="sidebar" class="grid_3">
+				<aside id="categories_nav">
+					<h3>个人中心</h3>
+					<nav class="left_menu">
+						<ul>
+							<li><a href="person-user.html">个人资料</a></li>
+							<li><a href="javascript:;" class="active">我的物品</a></li>
+							<li class="last"><a href="person-trade.html">交易记录</a></li>
+						</ul>
+					</nav>
+				</aside>
+			</div>
+
+			<div class="grid_9">
+				<div id="wrapper_tab" class="tab1">
+					<a href="#" class="tab1 tab_link">发布的物品</a> <a href="#"
+						class="tab2 tab_link">我要发布</a>
+<!-- 						 <a href="#" class="tab3 tab_link">购买的物品</a> -->
+<!-- 					<a href="#" class="tab4 tab_link">卖出的物品</a> -->
+					<div class="clear"></div>
+					<div class="tab1 tab_body">
+						<table class="own-reses operate">
+							<thead>
+								<tr>
+									<th>分类</th>
+									<th>物品名称</th>
+									<th>物品价格</th>
+									<th>创建时间</th>
+									<th>发布时间</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>yes, all</td> -->
+								<!-- 									<td>已创建</td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>yes, all</td> -->
+								<!-- 									<td>已创建</td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>yes, all</td> -->
+								<!-- 									<td>已创建</td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>yes, all</td> -->
+								<!-- 									<td>已创建</td> -->
+								<!-- 								</tr> -->
+							</tbody>
+						</table>
+						<div class="pagination">
+							<ul>
+								<!-- 								<li class="prev"><span>&#8592;</span></li> -->
+								<!-- 								<li class="curent"><a href="#">1</a></li> -->
+								<!-- 								<li><a href="#">2</a></li> -->
+								<!-- 								<li><a href="#">3</a></li> -->
+								<!-- 								<li><a href="#">4</a></li> -->
+								<!-- 								<li><a href="#">5</a></li> -->
+								<!-- 								<li><span>...</span></li> -->
+								<!-- 								<li><a href="#">100</a></li> -->
+								<!-- 								<li class="next"><a href="#">&#8594;</a></li> -->
+							</ul>
+						</div>
+					</div>
+					<!-- .tab1 .tab_body -->
+
+					<div class="tab2 tab_body">
+						<div class="personal">
+							<form class="registed putsResForm" onsubmit="return false;">
+								<div class="form_left" >
+									<div class="title">
+										<strong>物品名称:</strong> <input type="text" name="" class=""
+											value="" />
+									</div>
+
+									<div class="price">
+										<strong>价格:</strong> <input type="text" name="" class=""
+											value="" />
+									</div>
+									<div class="catagoryList">
+										<strong>分类</strong> <select>
+											<!-- 											<option>服饰</option> -->
+											<!-- 											<option>生活用品</option> -->
+											<!-- 											<option>电子产品</option> -->
+											<!-- 											<option>书籍</option> -->
+										</select>
+									</div>
+
+									<div class="pro_details desc">
+										<strong>物品描述</strong>
+										<textarea name="description"></textarea>
+									</div>
+									<div class="submit">
+										<input type="submit" value="确认发布" />
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="form_right">
+									<div class="pro_pic_pre">
+										<img src="" />
+									</div>
+									<div class="file-upload">
+										<input type='text' name='textfield' id='textfield' class='txt' />
+										<input type='button' class='btn' value='浏览...' /> <input
+											type="file" name="resFile" class="file" id="resFile"
+											size="28"
+											onchange="document.getElementById('textfield').value=this.value" />
+										<a id="uploadImg" href="javascript:;">上传</a>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<!-- .tab2 .tab_body -->
+
+<!-- 					<div class="tab3 tab_body"> -->
+<!-- 						<table> -->
+<!-- 							<tr> -->
+<!-- 								<th>物品名称</th> -->
+<!-- 								<th>物品价格</th> -->
+<!-- 								<th>创建时间</th> -->
+<!-- 								<th>发布时间</th> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 						</table> -->
+<!-- 						<div class="clear"></div> -->
+<!-- 					</div> -->
+					<!-- .tab3 .tab_body -->
+
+<!-- 					<div class="tab4 tab_body"> -->
+<!-- 						<table> -->
+<!-- 							<tr> -->
+<!-- 								<th>物品名称</th> -->
+<!-- 								<th>物品价格</th> -->
+<!-- 								<th>创建时间</th> -->
+<!-- 								<th>发布时间</th> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td>One</td> -->
+<!-- 								<td>no</td> -->
+<!-- 								<td>yes</td> -->
+<!-- 								<td>yes, all</td> -->
+<!-- 							</tr> -->
+<!-- 						</table> -->
+<!-- 					</div> -->
+<!-- 					.tab4 .tab_body -->
+<!-- 				</div> -->
+<!-- 				​ -->
+				<!-- #wrapper_tab -->
+				<div class="clear"></div>
+			</div>
+		</div>
+	</section>
+	<script src="js/ajaxfileupload.js"></script>
+	<script src="webjs/person_myreses.js"></script>
+	<script src="webjs/person_putres.js"></script>
+	<script src="webjs/person_putres.js"></script>
+	<script src="webjs/person_resnew.js"></script>
+</body>
+</html>

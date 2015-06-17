@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>注册</title>
+
+<link rel="shortcut icon" href="favicon.ico">
+<link href="css/style.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/grid.css" media="screen" rel="stylesheet"
+	type="text/css">
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/html5.js"></script>
+<script src="js/jflow.plus.js"></script>
+<script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
+<script src="js/checkbox.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/selectBox.js"></script>
+<script>
+	$(document).ready(function() {
+		$("button").click(function() {
+			$(this).addClass('click')
+		});
+	})
+</script>
+
+</head>
+<body>
+	<section id="main" class="entire_width">
+		<div class="container_12">
+			<div id="content">
+				<div class="grid_12">
+					<h1 class="page_title">登录或创建一个账户</h1>
+				</div>
+				<!-- .grid_12 -->
+
+				<div class="grid_6 new_customers">
+					<p>你成为本站用户，你将有权限进行更多操作，比如发布购买物品等。。。 如果你已经注册了一个账号，请点击登录</p>
+					<div class="clear"></div>
+					<button class="account">登录</button>
+				</div>
+
+				<div class="grid_6">
+					<form class="registed nonregist" onsubmit="return false;">
+						<h2>注册</h2>
+						<div class="user">
+							<strong>用户名:</strong><sup class="surely">*</sup><br /> <input
+								type="text" name="nickName" class="" value="" />
+						</div>
+
+						<div class="password">
+							<strong>密码:</strong><sup class="surely">*</sup><br /> <input
+								type="password" name="password" class="" value="" />
+						</div>
+
+						<div class="repassword">
+							<strong>确认密码:</strong><sup class="surely">*</sup><br /> <input
+								type="password" name="repassword" class="" value="" />
+						</div>
+
+						<div class="email">
+							<strong>邮箱:</strong><sup class="surely">*</sup><br /> <input
+								type="email" name="" class="userMail" value="" />
+						</div>
+
+						<div class="name">
+							<strong>真实姓名:</strong><sup class="surely">*</sup><br /> <input
+								type="text" name="name" class="" value="" />
+						</div>
+
+						<div class="sex">
+							<strong>性别:</strong><sup class="surely">*</sup>
+							<ul class="radio">
+								<li><input class="niceRadio" type="radio" name="sex"
+									value="男" checked />男</li>
+								<li><input class="niceRadio" type="radio" name="sex"
+									value="女" />女</li>
+							</ul>
+						</div>
+
+						<div class="contact">
+							<strong>联系方式:</strong><sup class="surely">*</sup><br /> <input
+								type="text" name="contact" class="" value="" />
+						</div>
+
+						<div class="submit">
+							<input type="submit" value="注册" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</section>
+	<script src="webjs/sign_up.js"></script>
+</body>
+</html>

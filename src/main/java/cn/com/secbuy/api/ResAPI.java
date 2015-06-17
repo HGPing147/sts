@@ -64,9 +64,44 @@ public class ResAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
 			return responseMap;
 		}
-		long rows = resService.findResRows(key, null, null, PUTSUP);// 查询总记录数
+		long rows = resService.findResRows(key, null, null, PUTSUP, TRADING);// 查询总记录数
 		if (rows != 0) {
-			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, null, PUTSUP);// 一页数据
+			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, null, PUTSUP, TRADING);// 一页数据
+			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
+			responseMap.put(DATA, reses);
+			responseMap.put(PAGE, page);
+		} else {
+			Pagination page = new Pagination(0, 0);// 分页信息
+			responseMap.put(DATA, new ArrayList<ResDTO>());
+			responseMap.put(PAGE, page);
+		}
+		responseMap.put(STATUS_CODE, OK);// 返回请求状态码
+		responseMap.put(OK_MESSAGE, "获取商品列表信息成功！");// 返回信息
+		return responseMap;
+	}
+
+	/**
+	 * 获取商品列表信息(管理员用)
+	 * 
+	 * @param pageNow
+	 *            当前页
+	 * @param key
+	 *            查询关键字
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/admin/reses", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getAdminReses(String pageNow, String key) {
+		responseMap = new HashMap<String, Object>();
+		if (!StringUtils.isNumeric(pageNow)) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
+			return responseMap;
+		}
+		long rows = resService.findResRows(key, null, null, PUTSDOWN, WAITING, PUTSUP, TRADING, TRADED);// 查询总记录数
+		if (rows != 0) {
+			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, null, PUTSDOWN, WAITING, PUTSUP,
+					TRADING, TRADED);// 一页数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, reses);
 			responseMap.put(PAGE, page);
@@ -105,9 +140,10 @@ public class ResAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
 			return responseMap;
 		}
-		long rows = resService.findResRows(key, Integer.valueOf(cataId), null, PUTSUP);// 查询总记录数
+		long rows = resService.findResRows(key, Integer.valueOf(cataId), null, PUTSUP, TRADING);// 查询总记录数
 		if (rows != 0) {
-			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, Integer.valueOf(cataId), null, PUTSUP);// 一页数据
+			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, Integer.valueOf(cataId), null, PUTSUP,
+					TRADING);// 一页数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, reses);
 			responseMap.put(PAGE, page);
@@ -147,9 +183,10 @@ public class ResAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "用户记录不存在!");// 返回错误信息
 			return responseMap;
 		}
-		long rows = resService.findResRows(key, null, user.getId(), null);// 查询总记录数
+		long rows = resService.findResRows(key, null, user.getId(), PUTSDOWN, WAITING, PUTSUP, TRADING, TRADED);// 查询总记录数
 		if (rows != 0) {
-			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, user.getId(), null);// 一页数据
+			List<ResDTO> reses = resService.findLimitedReses(Long.valueOf(pageNow), Pagination.PAGESIZE, key, null, user.getId(), PUTSDOWN, WAITING,
+					PUTSUP, TRADING, TRADED);// 一页数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, reses);
 			responseMap.put(PAGE, page);
@@ -232,11 +269,22 @@ public class ResAPI extends Base {
 	 */
 	@RequestMapping(value = "/api/v1/reses/contact/{resId}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getSellerContact(@PathVariable String resId) {
+	public Map<String, Object> getSellerContact(@PathVariable String resId, String accessToken) {
 		responseMap = new HashMap<String, Object>();
 		if (!StringUtils.isNumeric(resId)) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
 			responseMap.put(ERROR_MESSAGE, "商品序号必须是数字！");// 返回错误信息
+			return responseMap;
+		}
+		if (StringUtils.isEmpty(accessToken)) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "登陆后才能查看卖家联系方式！");// 返回错误信息
+			return responseMap;
+		}
+		UserDTO user = userService.findUserByAccessid(accessToken);// 获取用户信息
+		if (user == null || user.getId() == null) {
+			responseMap.put(STATUS_CODE, NOT_FOUND);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "用户信息有误,无法查看卖家联系方式! !");// 返回错误信息
 			return responseMap;
 		}
 		ContactDTO contact = resService.findSellerContactByID(Integer.valueOf(resId));
@@ -481,6 +529,72 @@ public class ResAPI extends Base {
 		} else {
 			responseMap.put(STATUS_CODE, INTERNAL_SERVER_ERROR);// 返回请求状态码
 			responseMap.put(ERROR_MESSAGE, "服务端发生错误,下架功能异常！");// 返回信息
+		}
+		return responseMap;
+	}
+
+	/**
+	 * 推荐商品
+	 * 
+	 * @param resId
+	 *            商品序号
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/reses/{resId}/recommend", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> recommed(@PathVariable String resId) {
+		responseMap = new HashMap<String, Object>();
+		if (!StringUtils.isNumeric(resId)) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "商品序号必须是数字！");// 返回错误信息
+			return responseMap;
+		}
+		ResDTO res = resService.findResByID(Integer.valueOf(resId));
+		if (res == null || PUTSUP != res.getStatus()) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "该商品不在发布状态中,无法进行推荐！");// 返回错误信息
+			return responseMap;
+		}
+		boolean result = resService.updateResDigest(Integer.valueOf(resId), RECOMMEND);
+		if (result) {
+			responseMap.put(STATUS_CODE, OK);// 返回请求状态码
+			responseMap.put(OK_MESSAGE, "推荐商品成功！");// 返回信息
+		} else {
+			responseMap.put(STATUS_CODE, INTERNAL_SERVER_ERROR);// 返回请求状态码
+			responseMap.put(ERROR_MESSAGE, "服务端发生错误,推荐功能异常！");// 返回信息
+		}
+		return responseMap;
+	}
+
+	/**
+	 * 撤回推荐商品
+	 * 
+	 * @param resId
+	 *            商品序号
+	 * @return
+	 */
+	@RequestMapping(value = "/api/v1/reses/{resId}/unrecommend", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> unrecommed(@PathVariable String resId) {
+		responseMap = new HashMap<String, Object>();
+		if (!StringUtils.isNumeric(resId)) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "商品序号必须是数字！");// 返回错误信息
+			return responseMap;
+		}
+		ResDTO res = resService.findResByID(Integer.valueOf(resId));
+		if (res == null || PUTSUP != res.getStatus() || RECOMMEND != res.getDigest()) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "该商品不在发布状态或者不在推荐状态,无法进行撤回推荐！");// 返回错误信息
+			return responseMap;
+		}
+		boolean result = resService.updateResDigest(Integer.valueOf(resId), UNRECOMMEND);
+		if (result) {
+			responseMap.put(STATUS_CODE, OK);// 返回请求状态码
+			responseMap.put(OK_MESSAGE, "撤回推荐商品成功！");// 返回信息
+		} else {
+			responseMap.put(STATUS_CODE, INTERNAL_SERVER_ERROR);// 返回请求状态码
+			responseMap.put(ERROR_MESSAGE, "服务端发生错误,撤回推荐功能异常！");// 返回信息
 		}
 		return responseMap;
 	}

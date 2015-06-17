@@ -2,7 +2,9 @@ package cn.com.secbuy.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
@@ -146,6 +148,52 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 	public boolean updateLastLoginTime(Date date, Integer id) {
 		String sql = "update user u set u.lastupdatetime=? where u.id=?";
 		Object[] args = new Object[] { date, id };
+		int result = this.jdbcTemplate.update(sql, args);
+		return result == 1;
+	}
+
+	@Override
+	public List<UserDTO> findLimitedUsers(long pageNow, int pageSize, String key) {
+		StringBuilder sql = new StringBuilder("select u.contact,u.id,u.name,u.nickname,u.sex,u.status,u.usermail from user u where 1=1 ");
+		if (key != null && !"".equals(key)) {
+			sql.append("and u.nickname like'%" + key + "%'");
+		}
+		sql.append("limit ?,?");
+		long offset = (pageNow - 1) * pageSize;
+		int limit = pageSize;
+		Object[] args = new Object[] { offset, limit };
+		final List<UserDTO> list = new ArrayList<UserDTO>();
+		this.jdbcTemplate.query(sql.toString(), args, new RowCallbackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				UserDTO user = new UserDTO();
+				user.setContact(rs.getString("contact"));
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.setNickName(rs.getString("nickname"));
+				user.setSex(rs.getString("sex"));
+				user.setStatus(rs.getInt("status"));
+				user.setUserMail(rs.getString("usermail"));
+				list.add(user);
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public long findUserRows(String key) {
+		StringBuilder sql = new StringBuilder("select count(u.id) from user u where 1=1 ");
+		if (key != null && !"".equals(key)) {
+			sql.append("and u.nickname like'%" + key + "%'");
+		}
+		return this.jdbcTemplate.queryForLong(sql.toString());
+	}
+
+	@Override
+	public boolean delUser(Integer userId) {
+		String sql = "delete from user where id=?";
+		Object[] args = new Object[] { userId };
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
 	}

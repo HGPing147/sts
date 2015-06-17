@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>登陆</title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="css/style.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/grid.css" media="screen" rel="stylesheet"
+	type="text/css">
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/html5.js"></script>
+<script src="js/jflow.plus.js"></script>
+<script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
+<script src="js/checkbox.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/selectBox.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$("select").selectBox();
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$("button").click(function() {
+			$(this).addClass('click')
+		});
+	})
+</script>
+
+</head>
+<body>
+	<section id="main" class="entire_width">
+		<div class="container_12">
+			<div id="content">
+				<div class="grid_12">
+					<h1 class="page_title">登录或创建一个账户</h1>
+				</div>
+				<!-- .grid_12 -->
+
+				<div class="grid_6 new_customers">
+					<h2>新用户</h2>
+					<p>通过我们的交易平台创建一个账户，你将能够更快地发布你的闲置二手物品，更好的选购你想要的二手闲置物品。掌握更多第一手资讯。</p>
+					<div class="clear"></div>
+					<button class="account">注册</button>
+				</div>
+				<!-- .grid_6 -->
+
+				<div class="grid_6">
+					<form class="registed" onsubmit="return false;">
+						<h2>已注册用户</h2>
+
+						<p>如果你已经有账号，请登录.</p>
+
+						<div class="user">
+							<strong>账号:</strong><sup class="surely">*</sup><br /> <input
+								type="text" name="" class="" value="" />
+						</div>
+						<!-- .email -->
+
+						<div class="password">
+							<strong>密码:</strong><sup class="surely">*</sup><br /> <input
+								type="password" name="" class="" value="" />
+						</div>
+						<!-- .password -->
+
+						<div class="submit">
+							<input type="submit" value="登录" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</section>
+	<script src="webjs/sign_in.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>我的物品</title>
+
+<link rel="shortcut icon" href="favicon.ico">
+<link href="css/style.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/grid.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link rel="stylesheet" href="css/jquery.jqzoom.css" type="text/css">
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="webjs/base.js"></script>
+<script src="webjs/head_user.js"></script>
+<script src="webjs/index_catagory.js"></script>
+<script src="js/html5.js"></script>
+<script src="js/jflow.plus.js"></script>
+<script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
+<script src="js/checkbox.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/selectBox.js"></script>
+<script src="js/jquery.jqzoom-core.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.jqzoom').jqzoom({
+			zoomType : 'standard',
+			lens : true,
+			preloadImages : true,
+			alwaysOn : false
+		});
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$('#wrapper_tab a').click(function() {
+			if ($(this).attr('class') != $('#wrapper_tab').attr('class')) {
+				$('#wrapper_tab').attr('class', $(this).attr('class'));
+			}
+			return false;
+		});
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$("button").click(function() {
+			$(this).addClass('click')
+		});
+	})
+</script>
+
+</head>
+<body>
+	<!-- header begin -->
+	<div class="container_12">
+		<header id="branding">
+			<div class="grid_3">
+				<div>
+					<h1 id="site_logo">
+						<a href="index.html" title=""><img src="images/logo.png"
+							alt="Online Store Theme Logo" /></a>
+					</h1>
+					<h2 id="site_description">Online Store Theme</h2>
+				</div>
+			</div>
+			<div class="grid_9">
+				<nav class="private">
+					<ul class="unlogin">
+						<li><a href="sign-in.html">登录</a></li>
+						<li class="separator">|</li>
+						<li><a href="sign-up.html">注册</a></li>
+					</ul>
+					<ul class="logined">
+						<li><a href="javascript:;">用户名</a></li>
+						<li class="separator">|</li>
+						<li><a href="javascript:;">退出</a></li>
+					</ul>
+				</nav>
+				<!-- .private -->
+			</div>
+			<!-- .grid_6 -->
+		</header>
+		<!-- #branding -->
+	</div>
+	<!-- header end -->
+	<div class="clear"></div>
+
+	<!-- nav begin -->
+	<div id="block_nav_primary">
+		<div class="container_12">
+			<div class="grid_12">
+				<nav class="primary catagories">
+					<ul>
+						<!--             <li class="curent"><a href="index.html">首页</a></li> -->
+						<!--             <li><a href="catalog_grid.html">服饰</a></li> -->
+						<!--             <li><a href="catalog_grid.html">生活用品</a></li> -->
+						<!--             <li><a href="catalog_grid.html">电子产品</a></li> -->
+						<!--             <li><a href="catalog_grid.html">书籍</a></li> -->
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- nav end -->
+	<div class="clear"></div>
+
+	<section id="main">
+		<div class="container_12">
+			<div id="sidebar" class="grid_3">
+				<aside id="categories_nav">
+					<h3>个人中心</h3>
+					<nav class="left_menu">
+						<ul>
+							<li><a href="person-user.html">个人资料</a></li>
+							<li><a href="person-reses.html">我的物品</a></li>
+							<li class="last"><a href="javascript:;" class="active">交易记录</a></li>
+						</ul>
+					</nav>
+				</aside>
+			</div>
+
+			<div class="grid_9">
+				<div id="wrapper_tab" class="tab1">
+					<a href="#" class="tab1 tab_link">购置交易信息</a> <a href="#"
+						class="tab2 tab_link">卖出交易信息</a>
+					<div class="clear"></div>
+					<div class="tab1 tab_body">
+						<table class="trade trade-bought">
+							<thead>
+								<tr>
+									<th>商品</th>
+									<th>价格</th>
+									<th>卖家</th>
+									<th>卖家联系方式</th>
+									<th>交易创建时间</th>
+									<th>交易状态</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 																<tr> -->
+								<!-- 																	<td>One</td> -->
+								<!-- 																	<td>no</td> -->
+								<!-- 																	<td>yes</td> -->
+								<!-- 																	<td>状态</td> -->
+								<!-- 																</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>状态</td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>状态</td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>状态</td> -->
+								<!-- 								</tr> -->
+							</tbody>
+						</table>
+						<div class="pagination buy">
+							<ul>
+							</ul>
+						</div>
+					</div>
+
+					<div class="tab2 tab_body">
+						<table class="trade operate trade-selled">
+							<thead>
+								<tr>
+									<th>商品</th>
+									<th>价格</th>
+									<th>买家</th>
+									<th>买家联系方式</th>
+									<th>交易创建时间</th>
+									<th>交易状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>交易状态</td> -->
+								<!-- 									<td><span>卖出</span> <span>撤回</span></td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>交易状态</td> -->
+								<!-- 									<td><span>卖出</span> <span>撤回</span></td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>交易状态</td> -->
+								<!-- 									<td><span>卖出</span> <span>撤回</span></td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td>One</td> -->
+								<!-- 									<td>no</td> -->
+								<!-- 									<td>yes</td> -->
+								<!-- 									<td>交易状态</td> -->
+								<!-- 									<td><span>卖出</span> <span>撤回</span></td> -->
+								<!-- 								</tr> -->
+							</tbody>
+						</table>
+						<div class="pagination sell">
+							<ul>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+	<script src="webjs/person_tradeBought.js"></script>
+	<script src="webjs/person_tradeSelled.js"></script>
+</body>
+</html>

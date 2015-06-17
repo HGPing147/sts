@@ -27,9 +27,9 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 	public List<TradeDTO> findLimitedTrades(long pageNow, int pageSize) {
 		StringBuffer sql = new StringBuffer("select ");
 		sql.append("t.id,t.createtime,t.status,");
-		sql.append("r.title as restitle,r.name as resname,r.resimageurl,r.cost,r.putstime,");
-		sql.append("s.name as sellername,s.sex as sellersex,s.sellerprofileimageurl,s.contact as sellercontact,");
-		sql.append("b.name as buyername,b.sex as buyersex,b.buyerprofileimageurl,b.contact as buyercontact" + " ");
+		sql.append("r.title as restitle,r.cost,r.putstime,");
+		sql.append("s.name as sellername,s.contact as sellercontact,");
+		sql.append("b.name as buyername,b.contact as buyercontact" + " ");
 		sql.append("from trade t" + " ");
 		sql.append("left join res r on t.res=r.id left join user s on t.seller=s.id left join user b on t.buyer=b.id where 1=1" + " ");
 		sql.append("order by t.createtime desc" + " ");
@@ -41,21 +41,16 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
 				TradeDTO trade = new TradeDTO();
-				trade.setBuyerContact("buyercontact");
+				trade.setBuyerContact(rs.getString("buyercontact"));
 				trade.setBuyerName(rs.getString("buyername"));
-				trade.setBuyerProfileImageUrl(rs.getString("buyerprofileimageurl"));
-				trade.setBuyerSex(rs.getString("buyersex"));
 				trade.setCost(rs.getDouble("cost"));
 				trade.setCreatetime(rs.getDate("createtime") + " " + rs.getTime("createtime"));
 				trade.setId(rs.getInt("id"));
-				trade.setName(rs.getString("resname"));
-				trade.setResImageUrl(rs.getString("resimageurl"));
 				trade.setSellerName(rs.getString("sellername"));
-				trade.setSellerProfileImageUrl(rs.getString("sellerprofileimageurl"));
-				trade.setSellerSex(rs.getString("sellersex"));
 				trade.setSerllerContact(rs.getString("sellercontact"));
 				trade.setStatus(rs.getInt("status"));
 				trade.setTitle(rs.getString("restitle"));
+				list.add(trade);
 			}
 		});
 		return list;
@@ -71,9 +66,9 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 	public List<TradeDTO> findLimitedUserTrades(long pageNow, int pageSize, Integer userId, int flag) {
 		StringBuffer sql = new StringBuffer("select ");
 		sql.append("t.id,t.createtime,t.status,");
-		sql.append("r.title as restitle,r.name as resname,r.resimageurl,r.cost,r.putstime,");
-		sql.append("s.name as sellername,s.sex as sellersex,s.sellerprofileimageurl,s.contact as sellercontact,");
-		sql.append("b.name as buyername,b.sex as buyersex,b.buyerprofileimageurl,b.contact as buyercontact" + " ");
+		sql.append("r.title as restitle,r.cost,r.putstime,");
+		sql.append("s.name as sellername,s.contact as sellercontact,");
+		sql.append("b.name as buyername,b.contact as buyercontact" + " ");
 		sql.append("from trade t" + " ");
 		sql.append("left join res r on t.res=r.id left join user s on t.seller=s.id left join user b on t.buyer=b.id where 1=1" + " ");
 		if (flag == 1) {
@@ -91,21 +86,16 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 			@Override
 			public void processRow(ResultSet rs) throws SQLException {
 				TradeDTO trade = new TradeDTO();
-				trade.setBuyerContact("buyercontact");
+				trade.setBuyerContact(rs.getString("buyercontact"));
 				trade.setBuyerName(rs.getString("buyername"));
-				trade.setBuyerProfileImageUrl(rs.getString("buyerprofileimageurl"));
-				trade.setBuyerSex(rs.getString("buyersex"));
 				trade.setCost(rs.getDouble("cost"));
 				trade.setCreatetime(rs.getDate("createtime") + " " + rs.getTime("createtime"));
 				trade.setId(rs.getInt("id"));
-				trade.setName(rs.getString("resname"));
-				trade.setResImageUrl(rs.getString("resimageurl"));
 				trade.setSellerName(rs.getString("sellername"));
-				trade.setSellerProfileImageUrl(rs.getString("sellerprofileimageurl"));
-				trade.setSellerSex(rs.getString("sellersex"));
 				trade.setSerllerContact(rs.getString("sellercontact"));
 				trade.setStatus(rs.getInt("status"));
 				trade.setTitle(rs.getString("restitle"));
+				list.add(trade);
 			}
 		});
 		return list;
@@ -126,7 +116,7 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 
 	@Override
 	public Trade findTradeByID(Integer id) {
-		String sql = "select t.id,t.res,t.seller,t.buyer,t.status where t.id=?";
+		String sql = "select t.id,t.res,t.seller,t.buyer,t.status from trade t where t.id=?";
 		final Trade trade = new Trade();
 		Object[] args = new Object[] { id };
 		this.jdbcTemplate.query(sql.toString(), args, new RowCallbackHandler() {
@@ -145,7 +135,7 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 
 	@Override
 	public boolean findRealTrade(Integer id) {
-		String sql = "select count(t.id) from trade where t.id=?";
+		String sql = "select count(t.id) from trade t where t.id=?";
 		Object[] args = new Object[] { id };
 		int result = this.jdbcTemplate.queryForInt(sql, args);
 		return result == 1;
@@ -161,7 +151,7 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 
 	@Override
 	public boolean delTrade(Integer id) {
-		String sql = "delete from trade t where t.id=?";
+		String sql = "delete from trade where id=?";
 		Object[] args = new Object[] { id };
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
@@ -176,9 +166,9 @@ public class TradeDAOImpl extends BaseDAO implements TradeDAO {
 	}
 
 	@Override
-	public boolean updateTradeStatusByResID(Integer resId, int status) {
-		String sql = "update trade t set t.status=? where t.res=?";
-		Object[] args = new Object[] { status, resId };
+	public boolean updateTradeStatusByTradeID(Integer tradeId, int status) {
+		String sql = "update trade t set t.status=? where t.id=?";
+		Object[] args = new Object[] { status, tradeId };
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
 	}

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.com.secbuy.dto.ResDTO;
 import cn.com.secbuy.dto.TradeDTO;
+import cn.com.secbuy.dto.UserDTO;
 import cn.com.secbuy.pojo.Trade;
 import cn.com.secbuy.service.ResService;
 import cn.com.secbuy.service.TradeService;
+import cn.com.secbuy.service.UserService;
 import cn.com.secbuy.util.Pagination;
 
 /**
@@ -27,11 +30,14 @@ import cn.com.secbuy.util.Pagination;
  * @date 2015年3月7日 上午11:33:31
  * @version V1.0
  */
+@Controller
 public class TradeAPI extends Base {
 	@Autowired
 	private TradeService tradeService;
 	@Autowired
 	private ResService resService;
+	@Autowired
+	private UserService userService;
 	private Map<String, Object> responseMap = null;// 返回json
 
 	/**
@@ -51,8 +57,9 @@ public class TradeAPI extends Base {
 			return responseMap;
 		}
 		long rows = tradeService.findTradeRows();// 获取数据库总记录数
-		if (rows != 0) {
+		if (rows > 0) {
 			List<TradeDTO> trades = tradeService.findLimitedTrades(Long.valueOf(pageNow), Pagination.PAGESIZE);
+			System.out.println(trades.size());
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, trades);
 			responseMap.put(PAGE, page);
@@ -75,23 +82,24 @@ public class TradeAPI extends Base {
 	 *            当前页码
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/trades/sell/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/v1/trades/sell/{accessToken}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> showSellTrades(@PathVariable String userId, String pageNow) {
+	public Map<String, Object> showSellTrades(@PathVariable String accessToken, String pageNow) {
 		responseMap = new HashMap<String, Object>();
-		if (!StringUtils.isNumeric(userId)) {
-			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
-			responseMap.put(ERROR_MESSAGE, "用户序号必须为数字！");// 返回错误信息
-			return responseMap;
-		}
 		if (!StringUtils.isNumeric(pageNow)) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
 			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
 			return responseMap;
 		}
-		long rows = tradeService.findTradeRows(Integer.valueOf(userId), SELLER);// 获取卖出交易总记录数
+		UserDTO user = userService.findUserByAccessid(accessToken);
+		if (user == null || user.getId() == null) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "用户不存在！");// 返回错误信息
+			return responseMap;
+		}
+		long rows = tradeService.findTradeRows(user.getId(), SELLER);// 获取卖出交易总记录数
 		if (rows != 0) {
-			List<TradeDTO> trades = tradeService.findLimitedUserTrades(Long.valueOf(pageNow), Pagination.PAGESIZE, Integer.valueOf(userId), SELLER); // 获取卖出交易数据
+			List<TradeDTO> trades = tradeService.findLimitedUserTrades(Long.valueOf(pageNow), Pagination.PAGESIZE, user.getId(), SELLER); // 获取卖出交易数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, trades);
 			responseMap.put(PAGE, page);
@@ -112,23 +120,24 @@ public class TradeAPI extends Base {
 	 * @param pageNow
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/trades/buy/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/v1/trades/buy/{accessToken}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> showBuyTrades(@PathVariable String userId, String pageNow) {
+	public Map<String, Object> showBuyTrades(@PathVariable String accessToken, String pageNow) {
 		responseMap = new HashMap<String, Object>();
-		if (!StringUtils.isNumeric(userId)) {
-			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
-			responseMap.put(ERROR_MESSAGE, "用户序号必须为数字！");// 返回错误信息
-			return responseMap;
-		}
 		if (!StringUtils.isNumeric(pageNow)) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
 			responseMap.put(ERROR_MESSAGE, "页码必须是数字！");// 返回错误信息
 			return responseMap;
 		}
-		long rows = tradeService.findTradeRows(Integer.valueOf(userId), BUYER);// 获取买下交易总记录数
+		UserDTO user = userService.findUserByAccessid(accessToken);
+		if (user == null || user.getId() == null) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "用户不存在！");// 返回错误信息
+			return responseMap;
+		}
+		long rows = tradeService.findTradeRows(user.getId(), BUYER);// 获取买下交易总记录数
 		if (rows != 0) {
-			List<TradeDTO> trades = tradeService.findLimitedUserTrades(Long.valueOf(pageNow), Pagination.PAGESIZE, Integer.valueOf(userId), BUYER); // 获取买下交易数据
+			List<TradeDTO> trades = tradeService.findLimitedUserTrades(Long.valueOf(pageNow), Pagination.PAGESIZE, user.getId(), BUYER); // 获取买下交易数据
 			Pagination page = new Pagination(Long.valueOf(pageNow), rows);// 分页信息
 			responseMap.put(DATA, trades);
 			responseMap.put(PAGE, page);
@@ -181,9 +190,9 @@ public class TradeAPI extends Base {
 	 *            交易信息
 	 * @return
 	 */
-	@RequestMapping(value = "/api/v1/trades/trading", method = RequestMethod.PUT)
+	@RequestMapping(value = "/api/v1/trades/trading", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> trading(Trade trade) {
+	public Map<String, Object> trading(Trade trade, String accessToken) {
 		responseMap = new HashMap<String, Object>();
 		if (trade == null) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
@@ -197,12 +206,19 @@ public class TradeAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "交易商品不存在！");// 返回错误信息
 			return responseMap;
 		}
+		UserDTO user = userService.findUserByAccessid(accessToken);// 获取用户信息
+		if (user == null || user.getId() == null || user.getId() == res.getUserId()) {
+			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
+			responseMap.put(ERROR_MESSAGE, "你不能购置此商品!请检测是否登陆或者是否是自己发布的商品!");// 返回错误信息
+			return responseMap;
+		}
 		// 判断商品是否处于可交易状态
 		if (res.getStatus() != PUTSUP) {
 			responseMap.put(STATUS_CODE, INVALID_REQUEST);// 返回错误请求状态码
 			responseMap.put(ERROR_MESSAGE, "交易商品未在出售状态!");// 返回错误信息
 			return responseMap;
 		}
+		trade.setBuyer(user.getId());
 		trade.setCreatetime(new Date());// 设置交易时间
 		trade.setStatus(TRADING);// 设置交易中状态
 		boolean resultTrading1 = tradeService.addTrade(trade);
@@ -243,8 +259,10 @@ public class TradeAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "不在交易中！");// 返回错误信息
 			return responseMap;
 		}
-		boolean resultTraded = tradeService.updateTradeStatusByResID(Integer.valueOf(tradeId), TRADED);// 交易成功
+		boolean resultTraded = tradeService.updateTradeStatusByTradeID(Integer.valueOf(tradeId), TRADED);// 交易成功
 		boolean resultPutsdown = resService.updateResStatus(trade.getRes(), PUTSDOWN);// 下架商品
+		System.out.println("resultTraded :" + resultTraded);
+		System.out.println("resultPutsdown :" + resultPutsdown);
 		if (resultTraded && resultPutsdown) {
 			responseMap.put(STATUS_CODE, OK);// 返回请求状态码
 			responseMap.put(OK_MESSAGE, "交易成功！");// 返回信息
@@ -281,7 +299,7 @@ public class TradeAPI extends Base {
 			responseMap.put(ERROR_MESSAGE, "不在交易中！");// 返回错误信息
 			return responseMap;
 		}
-		boolean resultTradingBroken = tradeService.updateTradeStatusByResID(Integer.valueOf(tradeId), TRADINGBROKEN);// 交易失败
+		boolean resultTradingBroken = tradeService.updateTradeStatusByTradeID(Integer.valueOf(tradeId), TRADINGBROKEN);// 交易失败
 		boolean resultPutsup = resService.updateResStatus(trade.getRes(), PUTSUP);// 重新发布商品
 		if (resultTradingBroken && resultPutsup) {
 			responseMap.put(STATUS_CODE, OK);// 返回请求状态码

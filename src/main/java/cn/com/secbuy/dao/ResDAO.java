@@ -29,7 +29,7 @@ public interface ResDAO {
 	 *            用户序号
 	 * @return
 	 */
-	public List<ResDTO> findLimitedReses(long pageNow, int pageSize, String key, Integer cataId, Integer userId, Integer status);
+	public List<ResDTO> findLimitedReses(long pageNow, int pageSize, String key, Integer cataId, Integer userId, Integer... status);
 
 	/**
 	 * 查询商品总记录数
@@ -42,7 +42,7 @@ public interface ResDAO {
 	 *            用户序号
 	 * @return
 	 */
-	public long findResRows(String key, Integer cataId, Integer userId, Integer status);
+	public long findResRows(String key, Integer cataId, Integer userId, Integer... status);
 
 	/**
 	 * 查询分类下商品信息(指定记录数)
@@ -57,7 +57,7 @@ public interface ResDAO {
 	 *            分类序号
 	 * @return
 	 */
-	public List<ResDTO> findLimitedCataReses(long pageNow, int pageSize, String key, Integer cateId, Integer status);
+	public List<ResDTO> findLimitedCataReses(long pageNow, int pageSize, String key, Integer cateId, Integer... status);
 
 	/**
 	 * 查询用户下商品信息(指定记录数)
@@ -72,7 +72,7 @@ public interface ResDAO {
 	 *            用户序号
 	 * @return
 	 */
-	public List<ResDTO> findLimitedUserReses(long pageNow, int pageSize, String key, Integer userId, Integer status);
+	public List<ResDTO> findLimitedUserReses(long pageNow, int pageSize, String key, Integer userId, Integer... status);
 
 	/**
 	 * 查询最新提交的12条记录
@@ -181,5 +181,14 @@ public interface ResDAO {
 	 * @return
 	 */
 	public boolean updateResPutstimeAndStatus(Integer id, String putstime, int status);
+
+	/**
+	 * 推荐
+	 * 
+	 * @param id
+	 * @param digest
+	 * @return
+	 */
+	public boolean updateResDigest(Integer id, int digest);
 
 }

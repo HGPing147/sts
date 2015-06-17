@@ -1,6 +1,7 @@
 package cn.com.secbuy.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import cn.com.secbuy.dto.UserDTO;
 import cn.com.secbuy.pojo.User;
@@ -98,4 +99,35 @@ public interface UserDAO {
 	 * @return
 	 */
 	public boolean updateLastLoginTime(Date date, Integer id);
+
+	/**
+	 * 查询用户(分页)
+	 * 
+	 * @param pageNow
+	 *            当前页
+	 * @param pageSize
+	 *            每页大小
+	 * @param key
+	 *            关键字
+	 * @return 用户信息集合
+	 */
+	public List<UserDTO> findLimitedUsers(long pageNow, int pageSize, String key);
+
+	/**
+	 * 获取总页数
+	 * 
+	 * @param key
+	 *            关键字
+	 * @return
+	 */
+	public long findUserRows(String key);
+
+	/**
+	 * 删除用户
+	 * 
+	 * @param userId
+	 *            用户序号
+	 * @return true删除成功 false 删除失败
+	 */
+	public boolean delUser(Integer userId);
 }

@@ -31,7 +31,7 @@ public class DateConver {
 	 * @return String YYYY-MM-DD HH:mm:ss格式时间
 	 */
 	public static String converDateToYYYYMMDDHHMMSS(Date date) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		return dateFormat.format(date);
 	}
 }

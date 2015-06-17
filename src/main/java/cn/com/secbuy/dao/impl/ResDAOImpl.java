@@ -26,12 +26,13 @@ import cn.com.secbuy.pojo.Res;
 public class ResDAOImpl extends BaseDAO implements ResDAO {
 
 	@Override
-	public List<ResDTO> findLimitedReses(long pageNow, int pageSize, String key, Integer cataId, Integer userId, Integer status) {
+	public List<ResDTO> findLimitedReses(long pageNow, int pageSize, String key, Integer cataId, Integer userId, Integer... status) {
 		StringBuffer sql = new StringBuffer(
-				"select r.id,r.title,r.name,r.resimageurl,r.cost,r.createtime,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r ");
+				"select r.id,r.title,r.name,r.description,r.resimageurl,r.cost,r.createtime,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r ");
 		sql.append("left join rescatagory c on r.cataid=c.id  where 1=1 ");
-		if (status != null) {
-			sql.append("and status=" + status + " ");
+		if (status != null && status.length > 0) {
+			String _status = this.transToString(status);
+			sql.append("and status in (" + _status + ") ");
 		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
@@ -64,6 +65,7 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 				res.setResImageUrl(rs.getString("resimageurl"));
 				res.setStatus(rs.getInt("status"));
 				res.setUserId(rs.getInt("userid"));
+				res.setResDesc(rs.getString("description"));
 				list.add(res);
 			}
 		});
@@ -71,10 +73,11 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 	}
 
 	@Override
-	public long findResRows(String key, Integer cataId, Integer userId, Integer status) {
+	public long findResRows(String key, Integer cataId, Integer userId, Integer... status) {
 		StringBuffer sql = new StringBuffer("select count(r.id) from res r where 1=1 ");
-		if (status != null) {
-			sql.append("and status=" + status + " ");
+		if (status != null && status.length > 0) {
+			String _status = this.transToString(status);
+			sql.append("and status in (" + _status + ") ");
 		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
@@ -89,12 +92,13 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 	}
 
 	@Override
-	public List<ResDTO> findLimitedCataReses(long pageNow, int pageSize, String key, Integer cataId, Integer status) {
+	public List<ResDTO> findLimitedCataReses(long pageNow, int pageSize, String key, Integer cataId, Integer... status) {
 		StringBuffer sql = new StringBuffer(
 				"select r.id,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r ");
 		sql.append("left join rescatagory c on r.cataid=c.id  where 1=1 ");
-		if (status != null) {
-			sql.append("and status=" + status + " ");
+		if (status != null && status.length > 0) {
+			String _status = this.transToString(status);
+			sql.append("and status in (" + _status + ") ");
 		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
@@ -129,12 +133,13 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 	}
 
 	@Override
-	public List<ResDTO> findLimitedUserReses(long pageNow, int pageSize, String key, Integer userId, Integer status) {
+	public List<ResDTO> findLimitedUserReses(long pageNow, int pageSize, String key, Integer userId, Integer... status) {
 		StringBuffer sql = new StringBuffer(
 				"select r.id,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r ");
 		sql.append("left join rescatagory c on r.cataid=c.id  where 1=1 ");
-		if (status != null) {
-			sql.append("and status=" + status + " ");
+		if (status != null && status.length > 0) {
+			String _status = this.transToString(status);
+			sql.append("and status in (" + _status + ") ");
 		}
 		if (!StringUtils.isEmpty(key)) {
 			sql.append("and r.name like '%" + key + "%'" + " ");
@@ -197,7 +202,7 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 
 	@Override
 	public List<ResDTO> findDigestReses(int digest) {
-		String sql = "select r.id,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r "
+		String sql = "select r.id,r.title,r.name,r.resimageurl,r.cost,r.putstime,r.digest,r.status,r.userid,c.name as cataname from res r "
 				+ "left join rescatagory c on r.cataid=c.id  where 1=1 and r.status=2 and r.digest=?  limit 0,12";
 		final List<ResDTO> list = new ArrayList<ResDTO>();
 		Integer[] args = { digest };
@@ -209,6 +214,7 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 				res.setCataName(rs.getString("cataname"));
 				res.setCost(rs.getDouble("cost"));
 				res.setId(rs.getInt("id"));
+				res.setTitle(rs.getString("title"));
 				res.setName(rs.getString("name"));
 				res.setPutstime(rs.getString("putstime"));
 				res.setDigest(rs.getInt("digest"));
@@ -274,7 +280,7 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 
 	@Override
 	public boolean findRealRes(Integer id) {
-		String sql = "select count(r.id) from res where r.id=?";
+		String sql = "select count(r.id) from res r where r.id=?";
 		Object[] args = new Object[] { id };
 		int result = this.jdbcTemplate.queryForInt(sql, args);
 		return result == 1;
@@ -290,7 +296,7 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 
 	@Override
 	public boolean delResByCataId(Integer cataId) {
-		String sql = "delete from res r where r.cataid=?";
+		String sql = "delete from res where cataid=?";
 		Object[] args = new Object[] { cataId };
 		int result = this.jdbcTemplate.update(sql, args);
 		return result > 0;
@@ -328,4 +334,27 @@ public class ResDAOImpl extends BaseDAO implements ResDAO {
 		int result = this.jdbcTemplate.update(sql, args);
 		return result == 1;
 	}
+
+	@Override
+	public boolean updateResDigest(Integer id, int digest) {
+		String sql = "update res r set r.digest=? where r.id=?";
+		Object[] args = new Object[] { digest, id };
+		int result = this.jdbcTemplate.update(sql, args);
+		return result == 1;
+	}
+
+	/**
+	 * 解析状态数组
+	 * 
+	 * @param status
+	 * @return
+	 */
+	private String transToString(Integer... status) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < status.length; i++) {
+			sb.append("'" + status[i] + "',");
+		}
+		return sb.toString().substring(0, sb.toString().length() - 1);
+	}
+
 }

@@ -107,6 +107,6 @@ public interface TradeDAO {
 	 * @param status
 	 * @return
 	 */
-	public boolean updateTradeStatusByResID(Integer resId, int status);
+	public boolean updateTradeStatusByTradeID(Integer tradeId, int status);
 
 }

@@ -48,6 +48,7 @@ public class Base {
 	protected static int BUYER = 2;// 买家
 
 	protected static int RECOMMEND = 1;// 推荐
+	protected static int UNRECOMMEND = 0;// 不推荐
 
 	/**
 	 * 设置cookie（接口方法）
